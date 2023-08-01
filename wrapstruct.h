@@ -171,12 +171,12 @@ struct next_wrap_st next_wrap[]= {
 #ifdef HAVE_FCHOWNAT
   {(void(*))&next_fchownat, "fchownat"},
 #endif /* HAVE_FCHOWNAT */
+#ifdef HAVE_FCHOWN32
+  {(void(*))&next_fchown32, "fchown32"},
+#endif /* HAVE_FCHOWN32 */
 #ifdef HAVE_MKDIRAT
   {(void(*))&next_mkdirat, "mkdirat"},
 #endif /* HAVE_MKDIRAT */
-#ifdef HAVE_OPENAT
-  {(void(*))&next_openat, "openat"},
-#endif /* HAVE_OPENAT */
 #ifdef HAVE_RENAMEAT
   {(void(*))&next_renameat, "renameat"},
 #endif /* HAVE_RENAMEAT */
@@ -230,6 +230,13 @@ struct next_wrap_st next_wrap[]= {
 #ifdef __sun
   {(void(*))&next_sysinfo, "sysinfo"},
 #endif
+
+#ifdef TIME64_HACK
+  {(void(*))&NEXT_LSTAT64_TIME64_NOARG, WRAP_LSTAT64_TIME64_QUOTE},
+  {(void(*))&NEXT_STAT64_TIME64_NOARG, WRAP_STAT64_TIME64_QUOTE},
+  {(void(*))&NEXT_FSTAT64_TIME64_NOARG, WRAP_FSTAT64_TIME64_QUOTE},
+  {(void(*))&NEXT_FSTATAT64_TIME64_NOARG, WRAP_FSTATAT64_TIME64_QUOTE},
+#endif /* TIME64_HACK */
   {NULL, NULL},
 };
 #endif

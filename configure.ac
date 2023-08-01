@@ -1,5 +1,5 @@
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT([fakeroot],[1.26],[clint@debian.org],[fakeroot])
+AC_INIT([fakeroot],[1.31],[clint@debian.org],[fakeroot])
 AC_PREREQ([2.71])
 AC_CONFIG_MACRO_DIR([build-aux])
 LT_PREREQ(2.1a)
@@ -7,6 +7,7 @@ AC_CANONICAL_TARGET
 AM_INIT_AUTOMAKE
 AM_MAINTAINER_MODE
 AC_CONFIG_HEADERS([config.h])
+AC_PROG_CPP
 AC_PROG_MAKE_SET
 LT_INIT
 LT_LANG(C)
@@ -50,9 +51,17 @@ int main() {
     return 0;
   }
 
-}]])],[ac_cv_use_ipc=sysv],[ac_cv_use_ipc=tcp],[])
+}]])],[ac_cv_use_ipc=sysv],[ac_cv_use_ipc=tcp],[ac_cv_use_ipc=cross])
 
-  if test $ac_cv_use_ipc = "tcp"; then
+  if test $ac_cv_use_ipc = cross; then
+    if test "$host_os" = linux-gnu; then
+      ac_cv_use_ipc=sysv
+      AC_MSG_RESULT([cross, guessing yes])
+    else
+      (set -o posix; set)
+      AC_MSG_ERROR([cross compiling, unknown result for $host_os])
+    fi
+  elif test $ac_cv_use_ipc = "tcp"; then
     AC_MSG_RESULT([No, using TCP])
   else
     AC_MSG_RESULT([Yes])
@@ -121,6 +130,7 @@ for zeroth in ssize_t int; do
   for second in void char; do
     for third in size_t int; do
       AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <unistd.h>
+#include <stdio.h>
         $zeroth readlink(const char *path, $second *buf, $third bufsiz);]], [[puts("hello, world");]])],
 	[readlink_retval=$zeroth
 	 readlink_buf_arg=$second
@@ -328,7 +338,7 @@ AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
   ],[ AC_MSG_RESULT([no])
   ])
 
-AC_CHECK_FUNCS(fchmodat fchownat fstatat mkdirat mknodat openat renameat unlinkat lchmod fgetattrlist)
+AC_CHECK_FUNCS(fchmodat fchownat fstatat mkdirat mknodat openat renameat unlinkat lchmod fgetattrlist fchown32)
 
 save_LIBS="$LIBS"
 # Linux
@@ -351,13 +361,31 @@ dnl  Solaris <=9 : _stat
 dnl  Solaris 10  : _xstat
 dnl  Digital Unix: stat
 
+time64_hack=no
+AH_TEMPLATE([TIME64_HACK], [time64 shuffle])
+AC_MSG_CHECKING([if we need to cope with time64])
+AC_EGREP_CPP([time64],[
+#include <bits/wordsize.h>
+#if __WORDSIZE == 32
+#define __USE_TIME_BITS64 1
+#include <sys/stat.h>
+stat
+#else
+NO
+#endif
+],
+       [AC_MSG_RESULT([yes]); AC_DEFINE(TIME64_HACK)
+time64_hack=yes
+],
+       [AC_MSG_RESULT([no]);])
+
 :>fakerootconfig.h.tmp
 
 for SEARCH in %stat f%stat l%stat f%statat %stat64 f%stat64 l%stat64 f%statat64 %mknod %mknodat; do
   FUNC=`echo $SEARCH|sed -e 's/.*%//'`
   PRE=`echo $SEARCH|sed -e 's/%.*//'`
   FOUND=
-  for WRAPPED in __${PRE}x${FUNC} _${PRE}x${FUNC} __${PRE}${FUNC}13 ${PRE}${FUNC}; do
+  for WRAPPED in __${PRE}x${FUNC} _${PRE}x${FUNC} __${PRE}${FUNC}13 ${PRE}${FUNC} __${PRE}${FUNC}; do
     AC_CHECK_FUNCS($WRAPPED,FOUND=$WRAPPED)
 dnl
 dnl to unconditionally define only the _* functions, comment out the 2 lines above,
@@ -413,6 +441,41 @@ dnl    FOUND=$WRAPPED
     fi
   done
 done
+
+if test "x$time64_hack" = "xyes"; then
+for SEARCH in stat64_time64 fstat64_time64 lstat64_time64 fstatat64_time64; do
+  FOUND=
+  for WRAPPED in __${SEARCH} ${SEARCH}; do
+    AC_CHECK_FUNCS($WRAPPED,FOUND=$WRAPPED)
+    if test -n "$FOUND"; then
+      PF=[`echo ${SEARCH}| tr '[a-z]' '[A-Z]'`]
+      DEFINE_WRAP=[`echo wrap_${SEARCH}| tr '[a-z]' '[A-Z]'`]
+      DEFINE_NEXT=[`echo wrap_${FOUND}| tr '[a-z]' '[A-Z]'`]
+      DEFINE_ARG=[`echo wrap_${FOUND}| tr '[a-z]' '[A-Z]'`]
+      AC_DEFINE_UNQUOTED(WRAP_${PF}, $FOUND)
+      AC_DEFINE_UNQUOTED(WRAP_${PF}_RAW, $FOUND)
+      AC_DEFINE_UNQUOTED(WRAP_${PF}_QUOTE, "$FOUND")
+      AC_DEFINE_UNQUOTED(TMP_${PF}, tmp_$FOUND)
+      AC_DEFINE_UNQUOTED(NEXT_${PF}_NOARG, next_$FOUND)
+      DEF_BEGIN=""
+      case "$SEARCH" in
+	     (*statat64_time64)
+	     DEF_END=",d,e"
+	     ;;
+	     (*)
+	     DEF_END=""
+	     ;;
+      esac
+      {
+       echo "#define NEXT_${PF}(a,b,c${DEF_END}) next_$FOUND(${DEF_BEGIN}b,c${DEF_END})"
+       echo "#define ${PF}_ARG(a,b,c${DEF_END}) (${DEF_BEGIN}b,c${DEF_END})"
+      } >>fakerootconfig.h.tmp
+
+      break
+    fi
+  done
+done
+fi
 
 if test -r fakerootconfig.h
 then
@@ -562,13 +625,33 @@ AH_VERBATIM([WRAP_STAT],
 #define WRAP_MKNODAT_RAW  __amknodat
 #define TMP_MKNODAT  __amknodat
 #define NEXT_MKNODAT_NOARG  next___amknodat
+
+#define WRAP_STAT64_TIME64_QUOTE  __astat64_time64
+#define WRAP_STAT64_TIME64  __astat64_time64
+#define WRAP_STAT64_TIME64_RAW  __astat64_time64
+#define TMP_STAT64_TIME64  __astat64_time64
+#define NEXT_STAT64_TIME64_NOARG  next___astat64_time64
+
+#define WRAP_LSTAT64_TIME64_QUOTE  __astat64_time64
+#define WRAP_LSTAT64_TIME64  __astat64_time64
+#define WRAP_LSTAT64_TIME64_RAW  __astat64_time64
+#define TMP_LSTAT64_TIME64  __astat64_time64
+#define NEXT_LSTAT64_TIME64_NOARG  next___astat64_time64
+
+#define WRAP_FSTAT64_TIME64_QUOTE  __astat64_time64
+#define WRAP_FSTAT64_TIME64  __astat64_time64
+#define WRAP_FSTAT64_TIME64_RAW  __astat64_time64
+#define TMP_FSTAT64_TIME64  __astat64_time64
+#define NEXT_FSTAT64_TIME64_NOARG  next___astat64_time64
+
+#define WRAP_FSTATAT64_TIME64_QUOTE  __astatat64_time64
+#define WRAP_FSTATAT64_TIME64  __astat64_time64
+#define WRAP_FSTATAT64_TIME64_RAW  __astat64_time64
+#define TMP_FSTATAT64_TIME64  __astat64_time64
+#define NEXT_FSTATAT64_TIME64_NOARG  next___astat64_time64
+
 ])
 dnl kludge end
-
-dnl check for b0rked Solaris (and other shells) and find one that works
-_AS_DETECT_REQUIRED([echo $(echo ok) > config.$$ 2>/dev/null
-		      j=`cat config.$$`
-		      test "x$j" = "xok"])
 
 case "$target_cpu:$target_os" in
 	(alpha*:linux*)
@@ -586,11 +669,11 @@ CPPFLAGS="$CPPFLAGS -I\$(srcdir)/statconv/glibc/linux/alpha"
 esac
 
 dnl AH_TEMPLATE([MACOSX], [is __APPLE__ defined by the compiler])
-AC_MSG_CHECKING([for MacOS X/Darwin])
+AC_MSG_CHECKING([for macOS/Darwin])
   AC_PREPROC_IFELSE(
     [AC_LANG_PROGRAM([[
        #ifndef __APPLE__
-       #error We are somewhere better
+       #error Not Apple
        #endif
   ]])],
     [macosx=true
