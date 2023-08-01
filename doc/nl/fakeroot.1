@@ -215,8 +215,7 @@ die het systeem verkennen, zoals GNU configure, kunnen hierdoor in de war
 raken (of anders kunnen zij fakeroot zo zwaar belasten dat fakeroot zelf in
 de war raakt). Het is dus niet aan te raden \fBconfigure\fP binnen fakeroot uit
 te voeren. Aangezien configure dient te worden aangeroepen in de regel
-`build' in \fIdebian/rules\fP, zorgt het commando \fBdpkg\-buildpackage
-\-rfakeroot\fP er automatisch voor dat dit correct wordt afgehandeld.
+`build' in \fIdebian/rules\fP, zorgt het commando \fBdpkg\-buildpackage \-rfakeroot\fP er automatisch voor dat dit correct wordt afgehandeld.
 .SH FOUTEN
 Het programma omhult \fBopen()\fP niet. Dit is op zichzelf geen fout, maar als
 een programma een commando \fIopen ("bestand", O_WRONLY, 000)\fP uitvoert, dan

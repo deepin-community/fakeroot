@@ -189,8 +189,7 @@ deverá realmente ser \fBjoost\fP enquanto no segundo caso deveria ter sido
 ficheiros "desconhecidos" uid=gid=0, está sempre OK. A maneira real para
 contornar isto é envolver \fBopen()\fP e \fBcreate()\fP, mas isso cria outros
 problemas, como demonstrado pelo pacote libtricks. Este pacote envolvia
-muitas mais funções, e tentava fazer muito mais do que o \fBfakeroot
-\&.\fP. Aconteceu que uma actualização menor da libc (de um caso em que a função
+muitas mais funções, e tentava fazer muito mais do que o \fBfakeroot \&.\fP. Aconteceu que uma actualização menor da libc (de um caso em que a função
 \fBstat()\fP não usava \fBopen()\fP para um com uma função \fBstat()\fP que usava (em
 alguns casos) \fBopen()\fP), veio a causar falhas de segmentação inexplicáveis
 (isto é, o \fBstat()\fP da libc6 chamava o \fBopen()\fP envolvido, o qual iria

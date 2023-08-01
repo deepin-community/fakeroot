@@ -170,12 +170,12 @@ int (*next_fchmodat)(int dir_fd, const char *path, mode_t mode, int flags)=tmp_f
 #ifdef HAVE_FCHOWNAT
 int (*next_fchownat)(int dir_fd, const char *path, uid_t owner, gid_t group, int flags)=tmp_fchownat;
 #endif /* HAVE_FCHOWNAT */
+#ifdef HAVE_FCHOWN32
+int (*next_fchown32)(int fd, uid_t owner, gid_t group)=tmp_fchown32;
+#endif /* HAVE_FCHOWN32 */
 #ifdef HAVE_MKDIRAT
 int (*next_mkdirat)(int dir_fd, const char *pathname, mode_t mode)=tmp_mkdirat;
 #endif /* HAVE_MKDIRAT */
-#ifdef HAVE_OPENAT
-int (*next_openat)(int dir_fd, const char *pathname, int flags, mode_t mode)=tmp_openat;
-#endif /* HAVE_OPENAT */
 #ifdef HAVE_RENAMEAT
 int (*next_renameat)(int olddir_fd, const char *oldpath, int newdir_fd, const char *newpath)=tmp_renameat;
 #endif /* HAVE_RENAMEAT */
@@ -229,4 +229,11 @@ int (*next_statx)(int dir_fd, const char *pathname, int flags, unsigned int mask
 #ifdef __sun
 int (*next_sysinfo)(int command, char *buf, long count)=tmp_sysinfo;
 #endif
+
+#ifdef TIME64_HACK
+int (*NEXT_LSTAT64_TIME64_NOARG)LSTAT64_TIME64_ARG(int ver, const char *file_name, struct stat64 *buf)=TMP_LSTAT64_TIME64;
+int (*NEXT_STAT64_TIME64_NOARG)STAT64_TIME64_ARG(int ver, const char *file_name, struct stat64 *buf)=TMP_STAT64_TIME64;
+int (*NEXT_FSTAT64_TIME64_NOARG)FSTAT64_TIME64_ARG(int ver, int fd, struct stat64 *buf)=TMP_FSTAT64_TIME64;
+int (*NEXT_FSTATAT64_TIME64_NOARG)FSTATAT64_TIME64_ARG(int ver, int dir_fd, const char *path, struct stat64 *buf, int flags)=TMP_FSTATAT64_TIME64;
+#endif /* TIME64_HACK */
 #endif

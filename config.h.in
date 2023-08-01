@@ -45,6 +45,9 @@
 /* Define to 1 if you have the `fchmodat' function. */
 #undef HAVE_FCHMODAT
 
+/* Define to 1 if you have the `fchown32' function. */
+#undef HAVE_FCHOWN32
+
 /* Define to 1 if you have the `fchownat' function. */
 #undef HAVE_FCHOWNAT
 
@@ -286,6 +289,9 @@
 /* stat-struct conversion hackery */
 #undef STUPID_ALPHA_HACK
 
+/* time64 shuffle */
+#undef TIME64_HACK
+
 /* Version number of package */
 #undef VERSION
 
@@ -349,6 +355,31 @@
 #define WRAP_MKNODAT_RAW  __amknodat
 #define TMP_MKNODAT  __amknodat
 #define NEXT_MKNODAT_NOARG  next___amknodat
+
+#define WRAP_STAT64_TIME64_QUOTE  __astat64_time64
+#define WRAP_STAT64_TIME64  __astat64_time64
+#define WRAP_STAT64_TIME64_RAW  __astat64_time64
+#define TMP_STAT64_TIME64  __astat64_time64
+#define NEXT_STAT64_TIME64_NOARG  next___astat64_time64
+
+#define WRAP_LSTAT64_TIME64_QUOTE  __astat64_time64
+#define WRAP_LSTAT64_TIME64  __astat64_time64
+#define WRAP_LSTAT64_TIME64_RAW  __astat64_time64
+#define TMP_LSTAT64_TIME64  __astat64_time64
+#define NEXT_LSTAT64_TIME64_NOARG  next___astat64_time64
+
+#define WRAP_FSTAT64_TIME64_QUOTE  __astat64_time64
+#define WRAP_FSTAT64_TIME64  __astat64_time64
+#define WRAP_FSTAT64_TIME64_RAW  __astat64_time64
+#define TMP_FSTAT64_TIME64  __astat64_time64
+#define NEXT_FSTAT64_TIME64_NOARG  next___astat64_time64
+
+#define WRAP_FSTATAT64_TIME64_QUOTE  __astatat64_time64
+#define WRAP_FSTATAT64_TIME64  __astat64_time64
+#define WRAP_FSTATAT64_TIME64_RAW  __astat64_time64
+#define TMP_FSTATAT64_TIME64  __astat64_time64
+#define NEXT_FSTATAT64_TIME64_NOARG  next___astat64_time64
+
 
 
 /* fifth argument of __xmknodat */

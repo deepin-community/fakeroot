@@ -38,7 +38,12 @@
    In this file, we want 'struct stat' to have a 32-bit 'ino_t'.
    We use 'struct stat64' when we need a 64-bit 'ino_t'.
 */
-#define _DARWIN_NO_64_BIT_INODE
+# include <sys/types.h>
+# if __DARWIN_ONLY_64_BIT_INO_T
+#  define _DARWIN_USE_64_BIT_INODE
+# else
+#  define _DARWIN_NO_64_BIT_INODE
+# endif
 
 /* The helper _unix2003 version of this file calls a few functions in this file
    that are marked with static_nonapple so that needs to become private instead
@@ -91,18 +96,24 @@
 #endif
 
 #ifndef _STAT_VER
- #if defined (__aarch64__)
-  #define _STAT_VER 0
- #elif defined (__powerpc__) && __WORDSIZE == 64
-  #define _STAT_VER 1
- #elif defined (__riscv) && __riscv_xlen==64
-  #define _STAT_VER 0
- #elif defined (__s390x__)
-  #define _STAT_VER 1
- #elif defined (__x86_64__)
-  #define _STAT_VER 1
- #else
-  #define _STAT_VER 3
+ #if defined __linux__
+  #if defined (__aarch64__)
+   #define _STAT_VER 0
+  #elif defined (__ia64__)
+   #define _STAT_VER 1
+  #elif defined (__powerpc__) && __WORDSIZE == 64
+   #define _STAT_VER 1
+  #elif defined (__riscv) && __riscv_xlen==64
+   #define _STAT_VER 0
+  #elif defined (__s390x__)
+   #define _STAT_VER 1
+  #elif defined (__x86_64__)
+   #define _STAT_VER 1
+  #else
+   #define _STAT_VER 3
+  #endif
+ #elif defined __GNU__
+   #define _STAT_VER 0
  #endif
 #endif
 
@@ -911,6 +922,32 @@ int fchown(int fd, uid_t owner, gid_t group){
 
   return r;
 }
+
+#ifdef HAVE_FCHOWN32
+int fchown32(int fd, uid_t owner, gid_t group){
+  INT_STRUCT_STAT st;
+  int r;
+
+  r=INT_NEXT_FSTAT(fd, &st);
+  if(r)
+    return r;
+
+  st.st_uid=owner;
+  st.st_gid=group;
+  INT_SEND_STAT(&st, chown_func);
+
+  if(!dont_try_chown())
+    r=next_fchown32(fd,owner,group);
+  else
+    r=0;
+
+  if(r&&(errno==EPERM))
+    r=0;
+
+  return r;
+}
+#endif /* HAVE_FCHOWN32 */
+
 
 #ifdef HAVE_FSTATAT
 #ifdef HAVE_FCHOWNAT
@@ -2595,18 +2632,76 @@ int sysinfo(int command, char *buf, long count)
 }
 #endif
 
-#ifdef HAVE_OPENAT
-int openat(int dir_fd, const char *pathname, int flags, ...)
-{
-	mode_t mode;
+#ifdef TIME64_HACK
+int WRAP_LSTAT64_TIME64 LSTAT64_TIME64_ARG(int ver,
+		       const char *file_name,
+		       struct stat64 *statbuf){
 
-    if (flags & O_CREAT) {
-        va_list args;
-        va_start(args, flags);
-        mode = va_arg(args, int);
-        va_end(args);
-    }
+  int r;
 
-    return next_openat(dir_fd, pathname, flags, mode);
+#ifdef LIBFAKEROOT_DEBUGGING
+  if (fakeroot_debug) {
+    fprintf(stderr, "lstat[time64] file_name %s\n", file_name);
+  }
+#endif /* LIBFAKEROOT_DEBUGGING */
+  r=NEXT_LSTAT64_TIME64(ver, file_name, statbuf);
+  if(r)
+    return -1;
+  SEND_GET_STAT64(statbuf, ver);
+  return 0;
 }
-#endif
+
+
+int WRAP_STAT64_TIME64 STAT64_TIME64_ARG(int ver,
+		       const char *file_name,
+		       struct stat64 *st){
+  int r;
+
+#ifdef LIBFAKEROOT_DEBUGGING
+  if (fakeroot_debug) {
+    fprintf(stderr, "stat64[time64] file_name %s\n", file_name);
+  }
+#endif /* LIBFAKEROOT_DEBUGGING */
+  r=NEXT_STAT64_TIME64(ver, file_name, st);
+  if(r)
+    return -1;
+  SEND_GET_STAT64(st,ver);
+  return 0;
+}
+
+
+int WRAP_FSTAT64_TIME64 FSTAT64_TIME64_ARG(int ver,
+			int fd,
+			struct stat64 *st){
+
+  int r;
+
+#ifdef LIBFAKEROOT_DEBUGGING
+  if (fakeroot_debug) {
+    fprintf(stderr, "fstat64[time64] fd %d\n", fd);
+  }
+#endif /* LIBFAKEROOT_DEBUGGING */
+  r=NEXT_FSTAT64_TIME64(ver, fd, st);
+  if(r)
+    return -1;
+  SEND_GET_STAT64(st,ver);
+  return 0;
+}
+
+int WRAP_FSTATAT64_TIME64 FSTATAT64_TIME64_ARG(int ver,
+			     int dir_fd,
+			     const char *path,
+			     struct stat64 *st,
+			     int flags){
+
+
+  int r;
+
+  r=NEXT_FSTATAT64_TIME64(ver, dir_fd, path, st, flags);
+  if(r)
+    return -1;
+  SEND_GET_STAT64(st,ver);
+  return 0;
+}
+
+#endif /* TIME64_HACK */

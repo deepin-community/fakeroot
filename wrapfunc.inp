@@ -9,8 +9,10 @@
 /**/									  */
 /* each line of this file lists 4 fields, seperated by a ";".		  */
 /* The first field is the name of the wrapped function, then it's return  */
-/* value. After that come the function arguments with types, and the last */
+/* value. After that come the function arguments with types, and the fifth */
 /* field contains the function arguments without types.                   */
+/* A sixth field is a special needed when wrapping the openat syscall.    */
+/* Otherwise it's like the third (function arguments with types).         */
 /**/
 
 /* __*xstat are used on glibc systems instead of just *xstat. */
@@ -194,12 +196,12 @@ fchmodat;int;(int dir_fd, const char *path, mode_t mode, int flags);(dir_fd, pat
 #ifdef HAVE_FCHOWNAT
 fchownat;int;(int dir_fd, const char *path, uid_t owner, gid_t group, int flags);(dir_fd, path, owner, group, flags)
 #endif /* HAVE_FCHOWNAT */
+#ifdef HAVE_FCHOWN32
+fchown32;int;(int fd, uid_t owner, gid_t group);(fd, owner, group)
+#endif /* HAVE_FCHOWN32 */
 #ifdef HAVE_MKDIRAT
 mkdirat;int;(int dir_fd, const char *pathname, mode_t mode);(dir_fd, pathname, mode)
 #endif /* HAVE_MKDIRAT */
-#ifdef HAVE_OPENAT
-openat;int;(int dir_fd, const char *pathname, int flags, mode_t mode);(dir_fd, pathname, flags, mode);;(int dir_fd, const char *pathname, int flags, ...)
-#endif /* HAVE_OPENAT */
 #ifdef HAVE_RENAMEAT
 renameat;int;(int olddir_fd, const char *oldpath, int newdir_fd, const char *newpath);(olddir_fd, oldpath, newdir_fd, newpath)
 #endif /* HAVE_RENAMEAT */
@@ -253,3 +255,10 @@ statx;int;(int dir_fd, const char *pathname, int flags, unsigned int mask, struc
 #ifdef __sun
 sysinfo;int;(int command, char *buf, long count);(command, buf, count)
 #endif
+
+#ifdef TIME64_HACK
+WRAP_LSTAT64_TIME64;int;LSTAT64_TIME64_ARG(int ver, const char *file_name, struct stat64 *buf);LSTAT64_TIME64_ARG(ver, file_name, buf);LSTAT64_TIME64
+WRAP_STAT64_TIME64;int;STAT64_TIME64_ARG(int ver, const char *file_name, struct stat64 *buf);STAT64_TIME64_ARG(ver, file_name, buf);STAT64_TIME64
+WRAP_FSTAT64_TIME64;int;FSTAT64_TIME64_ARG(int ver, int fd, struct stat64 *buf);FSTAT64_TIME64_ARG(ver, fd, buf);FSTAT64_TIME64
+WRAP_FSTATAT64_TIME64;int;FSTATAT64_TIME64_ARG(int ver, int dir_fd, const char *path, struct stat64 *buf, int flags);FSTATAT64_TIME64_ARG(ver, dir_fd, path, buf, flags);FSTATAT64_TIME64
+#endif /* TIME64_HACK */
