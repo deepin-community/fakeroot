@@ -22,6 +22,7 @@ struct next_wrap_st next_wrap[]= {
 
 #ifdef __APPLE__
 #ifdef __LP64__
+#include <sys/types.h>
   {(void(*))&next_getattrlist, "getattrlist"},
 #ifdef HAVE_FGETATTRLIST
   {(void(*))&next_fgetattrlist, "fgetattrlist"},
@@ -36,9 +37,12 @@ struct next_wrap_st next_wrap[]= {
 #endif
 #endif
 #if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_5
+#include <spawn.h>
+#if !__DARWIN_ONLY_64_BIT_INO_T
   {(void(*))&next_lstat$INODE64, "lstat$INODE64"},
   {(void(*))&next_stat$INODE64, "stat$INODE64"},
   {(void(*))&next_fstat$INODE64, "fstat$INODE64"},
+#endif /* !__DARWIN_ONLY_64_BIT_INO_T */
   {(void(*))&next_posix_spawn, "posix_spawn"},
   {(void(*))&next_posix_spawnp, "posix_spawnp"},
 #endif
@@ -171,15 +175,15 @@ struct next_wrap_st next_wrap[]= {
 #ifdef HAVE_FCHOWNAT
   {(void(*))&next_fchownat, "fchownat"},
 #endif /* HAVE_FCHOWNAT */
-#ifdef HAVE_FCHOWN32
-  {(void(*))&next_fchown32, "fchown32"},
-#endif /* HAVE_FCHOWN32 */
 #ifdef HAVE_MKDIRAT
   {(void(*))&next_mkdirat, "mkdirat"},
 #endif /* HAVE_MKDIRAT */
 #ifdef HAVE_RENAMEAT
   {(void(*))&next_renameat, "renameat"},
 #endif /* HAVE_RENAMEAT */
+#ifdef HAVE_RENAMEAT2
+  {(void(*))&next_renameat2, "renameat2"},
+#endif /* HAVE_RENAMEAT2 */
 #ifdef HAVE_UNLINKAT
   {(void(*))&next_unlinkat, "unlinkat"},
 #endif /* HAVE_UNLINKAT */
@@ -210,7 +214,9 @@ struct next_wrap_st next_wrap[]= {
   {(void(*))&next_fts_read, "fts_read"},
 #ifdef __APPLE__
 #if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_5
+#if !__DARWIN_ONLY_64_BIT_INO_T
   {(void(*))&next_fts_read$INODE64, "fts_read$INODE64"},
+#endif /* !__DARWIN_ONLY_64_BIT_INO_T */
 #endif
 #endif /* ifdef __APPLE__ */
 #endif /* HAVE_FTS_READ */
@@ -218,7 +224,9 @@ struct next_wrap_st next_wrap[]= {
   {(void(*))&next_fts_children, "fts_children"},
 #ifdef __APPLE__
 #if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_5
+#if !__DARWIN_ONLY_64_BIT_INO_T
   {(void(*))&next_fts_children$INODE64, "fts_children$INODE64"},
+#endif /* !__DARWIN_ONLY_64_BIT_INO_T */
 #endif
 #endif /* ifdef __APPLE__ */
 #endif /* HAVE_FTS_CHILDREN */

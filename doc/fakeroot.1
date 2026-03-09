@@ -5,7 +5,8 @@
 .de CW
 .sp
 .nf
-.ft CW
+.ie \n(.g .ft CR
+.el .ft CW
 ..
 .de CE
 .ft
@@ -13,34 +14,34 @@
 .sp
 ..
 .\"
-.TH fakeroot 1 "5 October 2014" "Debian Project" "Debian manual"
+.TH fakeroot 1 2024-12-19 "Debian Project" "Debian manual"
 .\" Manpage by J.H.M. Dassen <jdassen@debian.org>
 .\" and Clint Adams <clint@debian.org>
 .SH NAME
 fakeroot \- run a command in an environment faking root privileges for file
 manipulation
 .SH SYNOPSIS
-.B fakeroot 
-.B [\-l|\-\-lib
-.IB library] 
-.B [\-\-faked
-.IB faked-binary ] 
-.B [\-i
-.IB load-file ]
-.B [\-s
-.IB save-file ]
-.B [\-u|\-\-unknown\-is\-real ]
-.B [\-b|\-\-fd\-base ]
-.B [\-h|\-\-help ]
-.B [\-v|\-\-version ]
-.BI [\-\-]
-.BI [command]
+.B fakeroot
+.RB [ \-l | \-\-lib
+.IR library ]
+.RB [ \-\-faked
+.IR faked-binary ]
+.RB [ \-i
+.IR load-file ]
+.RB [ \-s
+.IR save-file ]
+.RB [ \-u | \-\-unknown\-is\-real ]
+.RB [ \-b | \-\-fd\-base ]
+.RB [ \-h | \-\-help ]
+.RB [ \-v | \-\-version ]
+.RB [ \-\- ]
+.RI [ command ]
 .SH DESCRIPTION
 .B fakeroot
 runs a command in an environment wherein it appears to have root privileges
 for file manipulation.  This is useful for allowing users to create archives
 (tar, ar, .deb etc.) with files in them with root permissions/ownership.
-Without 
+Without
 .B fakeroot
 one would need to have root privileges to create the constituent files of
 the archives with the correct permissions and ownership, and then pack them
@@ -54,12 +55,12 @@ functions would have had, had the user really been root. These wrapper
 functions are in a shared library
 .B /usr/lib/*/libfakeroot-*.so
 or similar location on your platform.
-The shared object is loaded through the 
+The shared object is loaded through the
 .B LD_PRELOAD
 mechanism of the dynamic loader. (See
 .BR ld.so (8))
 
-If you intend to build packages with 
+If you intend to build packages with
 .BR fakeroot ,
 please try building
 the fakeroot package first: the "debian/rules build" stage has a
@@ -72,7 +73,7 @@ ways.
 Also, note that it's best not to do the building of the binaries
 themselves under fakeroot. Especially configure and friends don't like
 it when the system suddenly behaves differently from what they
-expect. (or, they randomly unset some environment variables, some of
+expect (or, they randomly unset some environment variables, some of
 which fakeroot needs).
 
 .SH OPTIONS
@@ -84,7 +85,7 @@ Specify an alternative wrapper library.
 Specify an alternative binary to use as faked.
 .TP
 .BI [\-\-] \ command
-Any command you want to be ran as fakeroot. Use \(oq\-\-\(cq if in the command
+Any command you want to be run as fakeroot. Use \(oq\-\-\(cq if in the command
 you have other options that may confuse fakeroot's option parsing.
 .TP
 .BI \-s \ save-file
@@ -102,7 +103,7 @@ for more details.
 Load a fakeroot environment previously saved using \-s from load-file.
 Note that this does not implicitly save the file, use \-s as well for
 that behaviour. Using the same file for both \-i and \-s in a single
-.BR fakeroot
+.B fakeroot
 invocation is safe.
 .TP
 \fB\-u\fR, \fB\-\-unknown\-is\-real\fR
@@ -115,15 +116,15 @@ number to use for TCP connections; this may be important to avoid
 conflicts with the file descriptors used by the programs being run
 under fakeroot.
 .TP
-.BI \-h
+.B \-h
 Display help.
 .TP
-.BI \-v
+.B \-v
 Display version.
 
 .SH EXAMPLES
-Here is an example session with 
-.BR fakeroot . 
+Here is an example session with
+.BR fakeroot .
 Notice that inside the fake root environment file manipulation that
 requires root privileges succeeds, but is not really happening.
 .CW
@@ -152,12 +153,12 @@ $ ls \-ld hda3
 .CE
 Only the effects that user
 .B joost
-could do anyway happen for real. 
+could do anyway happen for real.
 
 .B fakeroot
-was specifically written to enable users to create Debian GNU/Linux 
-packages (in the 
-.BR deb(5)
+was specifically written to enable users to create Debian GNU/Linux
+packages (in the
+.BR deb (5)
 format) without giving them root privileges.
 This can be done by commands like
 .B dpkg-buildpackage \-rfakeroot
@@ -173,22 +174,22 @@ privileges, or decrease the system's security.
 .I /usr/lib/*/libfakeroot-*.so
 The shared library containing the wrapper functions.
 .SH ENVIRONMENT
-.B 
+.B
 .IP FAKEROOTKEY
 The key used to communicate with the fakeroot daemon. Any program
-started with the right 
+started with the right
 .B LD_PRELOAD
 and a
 .B FAKEROOTKEY
 of a running daemon will automatically connect to that daemon, and
-have the same "fake" view of the file system's permissions/ownerships.
+have the same "fake" view of the file system's permissions/ownerships
 (assuming the daemon and connecting program were started by the same
-user). 
+user).
 .B
 .IP LD_LIBRARY_PATH
 .B
 .IP LD_PRELOAD
-Fakeroot is implemented by wrapping system calls.  This is
+fakeroot is implemented by wrapping system calls.  This is
 accomplished by setting LD_LIBRARY_PATH=/usr/lib/fakeroot and
 LD_PRELOAD=libfakeroot.so.0.  That library is loaded before the
 system's C library, and so most of the library functions are
@@ -204,8 +205,8 @@ given paths, as in
 .SH LIMITATIONS
 .B
 .IP "Library versions"
-Every command executed within 
-.B fakeroot 
+Every command executed within
+.B fakeroot
 needs to be linked to the same version of the C library as
 .B fakeroot
 itself.
@@ -216,7 +217,7 @@ fakeroot doesn't wrap open(), create(), etc. So, if user
 does either
 .CW
 touch foo
-fakeroot 
+fakeroot
 ls \-al foo
 .CE
 or the other way around,
@@ -232,27 +233,27 @@ while the second case it should have been
 .BR root .
 For the Debian packaging, defaulting to giving all "unknown" files
 uid=gid=0, is always OK. The real way around this is to wrap
-.B open() 
-and 
+.B open()
+and
 .BR create() ,
 but that creates other problems, as demonstrated by the libtricks
 package. This package wrapped many more functions, and tried to do a
 lot more than
 .B fakeroot .
-It turned out that a minor upgrade of libc (from one where the 
-.BR stat()
+It turned out that a minor upgrade of libc (from one where the
+.BR stat ()
 function didn't use
-.BR open()
+.BR open ()
 to one with a
-.BR stat()
+.BR stat ()
 function that did (in some cases) use
-.BR open() ),
-would cause unexplainable segfaults (that is, the libc6 
-.BR stat()
+.BR open "() ),"
+would cause unexplainable segfaults (that is, the libc6
+.BR stat ()
 called the wrapped
-.BR open() ,
+.BR open "() ,"
 which would then call the libc6
-.BR stat() ,
+.BR stat "() ,"
 etc).
 Fixing them wasn't all that easy,
 but once fixed, it was just a matter of time before another function
@@ -260,7 +261,6 @@ started to use open(), never mind trying to port it to a different
 operating system. Thus I decided to keep the number of functions
 wrapped by fakeroot as small as possible, to limit the likelihood
 of \(oqcollisions\(cq.
-.B
 .IP "GNU configure (and other such programs)"
 fakeroot, in effect, is changing the way the system
 behaves. Programs that probe the system like GNU configure may get
@@ -293,12 +293,11 @@ Clint Adams
 .TP
 Timo Savola
 .SH MANUAL PAGE
-mostly by J.H.M. Dassen 
-.RI <jdassen@debian.org>
-Rather a lot mods/additions by joost and Clint.
+mostly by J.H.M. Dassen
+.BI < jdassen@debian.org >
+with rather a lot of modsifications and additions by joost and Clint.
 .SH "SEE ALSO"
-.BR faked (1)
+.BR debuild (1),
 .BR dpkg\-buildpackage (1),
-.BR debuild (1)
+.BR faked (1),
 .BR /usr/share/doc/fakeroot/DEBUG
-

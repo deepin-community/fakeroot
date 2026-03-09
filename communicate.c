@@ -1,6 +1,6 @@
 /*
   Copyright © 1997, 1998, 1999, 2000, 2001  joost witteveen
-  Copyright © 2002-2020  Clint Adams
+  Copyright © 2002-2024  Clint Adams
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -44,9 +44,6 @@
 # include <netinet/tcp.h>
 # include <netdb.h>
 # include <pthread.h>
-# ifdef HAVE_ENDIAN_H
-#  include <endian.h>
-# endif
 #endif /* FAKEROOT_FAKENET */
 #include <fcntl.h>
 #include <unistd.h>
@@ -482,7 +479,7 @@ static void open_comm_sd(void)
     fail("fcntl(F_SETFD, FD_CLOEXEC)");
 
   int val = 1;
-  if (setsockopt(comm_sd, SOL_TCP, TCP_NODELAY, &val, sizeof (val)) < 0)
+  if (setsockopt(comm_sd, IPPROTO_TCP, TCP_NODELAY, &val, sizeof (val)) < 0)
       fail("setsockopt(TCP_NODELAY)");
 
   while (1) {
@@ -511,12 +508,19 @@ void unlock_comm_sd(void)
 void send_fakem(const struct fake_msg *buf)
 {
   int r;
+  struct fake_msg_buf fm = { 0 };
 
   if(init_get_msg()!=-1){
-    ((struct fake_msg *)buf)->mtype=1;
+    memcpy(&fm.msg, buf, sizeof(*buf));
+    fm.mtype=1;
+#if BYTE_ORDER == BIG_ENDIAN
+    ((struct fake_msg*)&fm.msg)->magic=FAKEROOT_MAGIC_BE;
+#elif BYTE_ORDER == LITTLE_ENDIAN
+    ((struct fake_msg*)&fm.msg)->magic=FAKEROOT_MAGIC_LE;
+#endif
     do
-      r=msgsnd(msg_snd, (struct fake_msg *)buf,
-	       sizeof(*buf)-sizeof(buf->mtype), 0);
+      r=msgsnd(msg_snd, &fm,
+	       sizeof(fm)-sizeof(fm.mtype), 0);
     while((r==-1) && (errno==EINTR));
     if(r==-1)
       perror("libfakeroot, when sending message");
@@ -548,8 +552,12 @@ void send_get_fakem(struct fake_msg *buf)
   there will always be some (small) chance it will go wrong.
   */
 
+  struct fake_msg_buf fm = { 0 };
+  uint32_t k = 0;
+  uint32_t magic_candidate = 0;
   int l;
   pid_t pid;
+  uint8_t* ptr = NULL;
   static int serial=0;
 
   if(init_get_msg()!=-1){
@@ -560,11 +568,50 @@ void send_get_fakem(struct fake_msg *buf)
     buf->pid=pid;
     send_fakem(buf);
 
-    do
+    do {
       l=msgrcv(msg_get,
-               (struct my_msgbuf*)buf,
-               sizeof(*buf)-sizeof(buf->mtype),0,0);
-    while(((l==-1)&&(errno==EINTR))||(buf->serial!=serial)||buf->pid!=pid);
+               &fm,
+               sizeof(fm)-sizeof(fm.mtype),0,0);
+
+      ptr = (uint8_t *)&fm;
+      for (k=0; k<16; k++) {
+        magic_candidate = *(uint32_t*)&ptr[k];
+        if (magic_candidate == FAKEROOT_MAGIC_LE || magic_candidate == FAKEROOT_MAGIC_BE) {
+          memcpy(buf, &ptr[k], sizeof(*buf));
+          break;
+        }
+      }
+
+      if (k == 16) {
+        fprintf(stderr,
+               "libfakeroot internal error: payload not recognized!\n");
+        continue;
+      }
+
+      /*
+        Use swapX here instead of ntoh/hton
+        that do nothing on big-endian machines
+      */
+#if BYTE_ORDER == LITTLE_ENDIAN
+      if (magic_candidate == FAKEROOT_MAGIC_BE) {
+#elif BYTE_ORDER == BIG_ENDIAN
+      if (magic_candidate == FAKEROOT_MAGIC_LE) {
+#endif
+         buf->id = bswapl(buf->id);
+         buf->pid = bswapl(buf->pid);
+         buf->serial = bswapl(buf->serial);
+         buf->st.uid = bswapl(buf->st.uid);
+         buf->st.gid = bswapl(buf->st.gid);
+         buf->st.ino = bswapll(buf->st.ino);
+         buf->st.dev = bswapll(buf->st.dev);
+         buf->st.rdev = bswapll(buf->st.rdev);
+         buf->st.mode = bswapl(buf->st.mode);
+         buf->st.nlink = bswapl(buf->st.nlink);
+         buf->remote = bswapl(0);
+         buf->xattr.buffersize = bswapl(buf->xattr.buffersize);
+         buf->xattr.flags_rc = bswapl(buf->xattr.flags_rc);
+      }
+    }while(((l==-1)&&(errno==EINTR))||(buf->serial!=serial)||buf->pid!=pid);
 
     if(l==-1){
       buf->xattr.flags_rc=errno;
@@ -581,7 +628,6 @@ void send_get_fakem(struct fake_msg *buf)
     printf("libfakeroot/fakeroot, internal bug!! get_fake: length=%i != l=%i",
     sizeof(*buf)-sizeof(buf->mtype),l);
     */
-
   }
 }
 
@@ -756,7 +802,7 @@ void send_get_stat(struct stat *st
 		, int ver
 #endif
 		){
-  struct fake_msg buf;
+  struct fake_msg buf = { 0 };
 
 #ifndef FAKEROOT_FAKENET
   if(init_get_msg()!=-1)
@@ -842,7 +888,7 @@ void send_get_stat64(struct stat64 *st
 #endif
                     )
 {
-  struct fake_msg buf;
+  struct fake_msg buf = { 0 };
 
 #ifndef FAKEROOT_FAKENET
   if(init_get_msg()!=-1)

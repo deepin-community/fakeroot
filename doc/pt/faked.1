@@ -18,7 +18,7 @@
 .\" This file was generated with po4a. Translate the source file.
 .\"
 .\"*******************************************************************
-.TH faked 1 "17 de Junho 2004" "Projecto Debian" "Manual de Debian GNU/Linux"
+.TH faked 1 2024\-12\-19 "Projecto Debian" "Manual Debian"
 .\" Manpage by J.H.M. Dassen <jdassen@debian.org>
 .\" and Clint Adams
 .SH NOME
@@ -32,7 +32,7 @@ Se um processo do fakeroot quiser alterar a propriedade de um ficheiro,
 então o \fBfaked\fP é o processo que se lembra desse novo proprietário. Se mais
 tarde o mesmo processo do fakeroot fizer um stat() para esse nome de
 ficheiro, então a chamada stat() envolvida pela libfakeroot irá primeiro
-perguntar ao faked pela propriedade falsa e etc desse ficheiro, e depois
+perguntar ao faked pela propriedade falsa e etc.\& desse ficheiro, e depois
 reporta\-a.
 
 .SH OPÇÕES
@@ -43,14 +43,14 @@ Escreve informação de depuração no stderr
 \fB\-\-foreground\fP
 Não faz fork para segundo plano.
 .TP 
-\fB\-\-cleanup \ número\fP
+\fB\-\-cleanup\fP\fI\ número\fP
 Limpa os semáforos.
 .TP 
-\fB\-\-key \ key\-number\fP
+\fB\-\-key\fP\fI\ key\-number\fP
 Não aloca um novo canal de comunicação, mas usa o canal especificado pela
-chave. (Se o canal especificado não existir, é criado).
+chave.  (Se o canal especificado não existir, é criado).
 .TP 
-\fB\-\-save\-file \ save\-file\fP
+\fB\-\-save\-file\fP\fI\ save\-file\fP
 Grava o ambiente no save\-file ao terminar.
 .TP 
 \fB\-\-load\fP
@@ -60,12 +60,12 @@ Carrega um ambiente previamente guardado a partir da entrada standard.
 Usa a propriedade real de ficheiros previamente\-desconhecidos em vez de os
 definir para root:root.
 .TP 
-\fB\-\-port \ porto\-tcp\fP
+\fB\-\-port\fP\fI\ porto\-tcp\fP
 Usa o porto TCP porto\-tcp.
 
 .SH BUGS
-Nenhum até agora. Não obstante fica avisado: apesar de eu ter escrito
-programas muito maiores (e menores), Eu nunca tinha escrito algo tão
+Nenhum até agora.  Não obstante fica avisado: apesar de eu ter escrito
+programas muito maiores (e menores) , Eu nunca tinha escrito algo tão
 minúsculo como o \fBfakeroot\fP, tive tantos bugs como o \fBfakeroot\fP, e mesmo
 assim foi tão utilizável como, digamos, o \fBfakeroot\fP versão 0.0_3, a
 primeira versão que podia ser usada para se compilar a si própria.
@@ -84,8 +84,8 @@ Timo Savola
 .SH TRADUTOR
 Américo Monteiro <a_monteiro@gmx.com>
 .SH "PÁGINA DE MANUAL"
-a maioria por J.H.M. Dassen <jdassen@debian.org>
+a maioria por J.H.M.\& Dassen <\fIjdassen@debian.org\fP>
 modificações/adições por joost e Clint.
 .SH "VEJA TAMBÉM"
-\fBfakeroot\fP(1), \fBdpkg\-buildpackage\fP(1), \fBdebuild\fP(1)
+\fBfakeroot\fP(1), \fBdpkg\-buildpackage\fP(1), \fBdebuild\fP(1),
 \fB/usr/share/doc/fakeroot/DEBUG\fP

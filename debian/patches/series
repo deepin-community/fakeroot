@@ -1,3 +1,2 @@
 fix-shell-in-fakeroot
-compile-time64-wraps-with-D_TIME_BITS-64.patch
-add-loong64-support.patch
+time64-on-32bit-archs

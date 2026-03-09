@@ -86,12 +86,14 @@
 #define SEND_STAT64(a,b,c) send_stat64(a,b,c)
 #define SEND_GET_STAT(a,b) send_get_stat(a,b)
 #define SEND_GET_STAT64(a,b) send_get_stat64(a,b)
+#define SEND_GET_XATTR(a,b,c) send_get_xattr(a,b,c)
 #define SEND_GET_XATTR64(a,b,c) send_get_xattr64(a,b,c)
 #else
 #define SEND_STAT(a,b,c) send_stat(a,b)
 #define SEND_STAT64(a,b,c) send_stat64(a,b)
 #define SEND_GET_STAT(a,b) send_get_stat(a)
 #define SEND_GET_STAT64(a,b) send_get_stat64(a)
+#define SEND_GET_XATTR(a,b,c) send_get_xattr(a,b)
 #define SEND_GET_XATTR64(a,b,c) send_get_xattr64(a,b)
 #endif
 
@@ -139,13 +141,6 @@
 #define INT_SEND_STAT(a,b) SEND_STAT(a,b,_STAT_VER)
 #define INT_SEND_GET_XATTR(a,b) SEND_GET_XATTR(a,b,_STAT_VER)
 #define INT_SEND_GET_STAT(a,b) SEND_GET_STAT(a,b)
-
-/* 10.10 uses id_t in getpriority/setpriority calls, so pretend
-   id_t is used everywhere, just happens to be int on some OSes */
-#ifndef _ID_T
-#define _ID_T
-typedef int id_t;
-#endif
 #endif
 
 #include <sys/types.h>
@@ -923,32 +918,6 @@ int fchown(int fd, uid_t owner, gid_t group){
   return r;
 }
 
-#ifdef HAVE_FCHOWN32
-int fchown32(int fd, uid_t owner, gid_t group){
-  INT_STRUCT_STAT st;
-  int r;
-
-  r=INT_NEXT_FSTAT(fd, &st);
-  if(r)
-    return r;
-
-  st.st_uid=owner;
-  st.st_gid=group;
-  INT_SEND_STAT(&st, chown_func);
-
-  if(!dont_try_chown())
-    r=next_fchown32(fd,owner,group);
-  else
-    r=0;
-
-  if(r&&(errno==EPERM))
-    r=0;
-
-  return r;
-}
-#endif /* HAVE_FCHOWN32 */
-
-
 #ifdef HAVE_FSTATAT
 #ifdef HAVE_FCHOWNAT
 int fchownat(int dir_fd, const char *path, uid_t owner, gid_t group, int flags) {
@@ -1099,7 +1068,6 @@ int fchmodat(int dir_fd, const char *path, mode_t mode, int flags) {
     return(r);
 
   st.st_mode=(mode&ALLPERMS)|(st.st_mode&~ALLPERMS);
-  INT_SEND_STAT(&st,chmod_func);
 
   /* see chmod() for comment */
   mode |= 0600;
@@ -1107,6 +1075,9 @@ int fchmodat(int dir_fd, const char *path, mode_t mode, int flags) {
     mode |= 0100;
 
   r=next_fchmodat(dir_fd, path, mode, flags);
+  if(!(r&&(errno==EOPNOTSUPP)))
+    INT_SEND_STAT(&st,chmod_func);
+
   if(r&&(errno==EPERM))
     r=0;
 #ifdef EFTYPE		/* available under FreeBSD kernel */
@@ -1144,6 +1115,10 @@ int WRAP_MKNOD MKNOD_ARG(int ver UNUSED,
 
   if(r)
     return -1;
+
+  /* empty file type means regular file */
+  if(!(mode & S_IFMT))
+    mode |= S_IFREG;
 
   st.st_mode= mode & ~old_mask;
   st.st_rdev= XMKNOD_FRTH_ARG dev;
@@ -1184,6 +1159,10 @@ int WRAP_MKNODAT MKNODAT_ARG(int ver UNUSED,
 
   if(r)
     return -1;
+
+  /* empty file type means regular file */
+  if(!(mode & S_IFMT))
+    mode |= S_IFREG;
 
   st.st_mode= mode & ~old_mask;
   st.st_rdev= XMKNODAT_FIFTH_ARG dev;
@@ -1408,51 +1387,100 @@ int renameat(int olddir_fd, const char *oldpath,
   return 0;
 }
 #endif /* HAVE_RENAMEAT */
+#ifdef HAVE_RENAMEAT2
+int renameat2(int olddir_fd, const char *oldpath,
+              int newdir_fd, const char *newpath, unsigned int flags){
+  int r,s;
+  INT_STRUCT_STAT st;
+
+  /* If newpath points to an existing file, that file will be
+     unlinked.   Make sure we tell the faked daemon about this! */
+
+  /* we need the st_new struct in order to inform faked about the
+     (possible) unlink of the file */
+
+  r=INT_NEXT_FSTATAT(newdir_fd, newpath, &st, AT_SYMLINK_NOFOLLOW);
+
+  s=next_renameat2(olddir_fd, oldpath, newdir_fd, newpath, flags);
+  if(s)
+    return -1;
+  if(!r)
+    INT_SEND_STAT(&st,unlink_func);
+
+  return 0;
+}
+#endif /* HAVE_RENAMEAT2 */
 #endif /* HAVE_FSTATAT */
 
 
 #if defined(__GLIBC__)
 #if __GLIBC_PREREQ(2,33)
 /* Glibc 2.33 exports symbols for these functions in the shared lib */
+
+#ifndef NO_WRAP_LSTAT_SYMBOL
+  /* glibc exports both lstat and __xstat */
   int lstat(const char *file_name, struct stat *statbuf) {
      return WRAP_LSTAT LSTAT_ARG(_STAT_VER, file_name, statbuf);
   }
+#endif
+
+#ifndef NO_WRAP_STAT_SYMBOL
+  /* glibc exports both stat and __xstat */
   int stat(const char *file_name, struct stat *st) {
      return WRAP_STAT STAT_ARG(_STAT_VER, file_name, st);
   }
+#endif
+#ifndef NO_WRAP_FSTAT_SYMBOL
+  /* glibc exports both fstat and __fxstat */
   int fstat(int fd, struct stat *st) {
      return WRAP_FSTAT FSTAT_ARG(_STAT_VER, fd, st);
   }
+#endif
 
-  #ifdef HAVE_FSTATAT
+  #if defined(HAVE_FSTATAT) && !defined(NO_WRAP_FSTATAT_SYMBOL)
+    /* glibc exports both fstatat and __fxstatat */
     int fstatat(int dir_fd, const char *path, struct stat *st, int flags) {
        return WRAP_FSTATAT FSTATAT_ARG(_STAT_VER, dir_fd, path, st, flags);
     }
   #endif
 
   #ifdef STAT64_SUPPORT
+    #ifndef NO_WRAP_LSTAT64_SYMBOL
+    /* glibc exports both lstat64 and __xstat64 */
     int lstat64(const char *file_name, struct stat64 *st) {
        return WRAP_LSTAT64 LSTAT64_ARG(_STAT_VER, file_name, st);
     }
+    #endif
+    #ifndef NO_WRAP_STAT64_SYMBOL
+    /* glibc exports both stat64 and __xstat64 */
     int stat64(const char *file_name, struct stat64 *st) {
        return WRAP_STAT64 STAT64_ARG(_STAT_VER, file_name, st);
     }
+    #endif
+    #ifndef NO_WRAP_FSTAT64_SYMBOL
+    /* glibc exports both fstat64 and __fxstat64 */
     int fstat64(int fd, struct stat64 *st) {
        return WRAP_FSTAT64 FSTAT64_ARG(_STAT_VER, fd, st);
     }
+    #endif
 
-    #ifdef HAVE_FSTATAT
+    #if defined(HAVE_FSTATAT) && !defined(NO_WRAP_FSTATAT64_SYMBOL)
+    /* glibc exports both fstatat64 and __fxstatat64 */
       int fstatat64(int dir_fd, const char *path, struct stat64 *st, int flags) {
 	 return WRAP_FSTATAT64 FSTATAT64_ARG(_STAT_VER, dir_fd, path, st, flags);
       }
     #endif
   #endif
 
+  #ifndef NO_WRAP_MKNOD_SYMBOL
+  /* glibc exports both mknod and __xmknod */
   int mknod(const char *pathname, mode_t mode, dev_t dev) {
      return WRAP_MKNOD MKNOD_ARG(_STAT_VER, pathname, mode, &dev);
   }
+  #endif
 
-  #if defined(HAVE_FSTATAT) && defined(HAVE_MKNODAT)
+  #if defined(HAVE_FSTATAT) && defined(HAVE_MKNODAT) && !defined(NO_WRAP_MKNODAT_SYMBOL)
+  /* glibc exports both mknodat and __xmknodat */
     int mknodat(int dir_fd, const char *pathname, mode_t mode, dev_t dev) {
        return WRAP_MKNODAT MKNODAT_ARG(_STAT_VER, dir_fd, pathname, mode, &dev);
     }
@@ -2631,77 +2659,3 @@ int sysinfo(int command, char *buf, long count)
     }
 }
 #endif
-
-#ifdef TIME64_HACK
-int WRAP_LSTAT64_TIME64 LSTAT64_TIME64_ARG(int ver,
-		       const char *file_name,
-		       struct stat64 *statbuf){
-
-  int r;
-
-#ifdef LIBFAKEROOT_DEBUGGING
-  if (fakeroot_debug) {
-    fprintf(stderr, "lstat[time64] file_name %s\n", file_name);
-  }
-#endif /* LIBFAKEROOT_DEBUGGING */
-  r=NEXT_LSTAT64_TIME64(ver, file_name, statbuf);
-  if(r)
-    return -1;
-  SEND_GET_STAT64(statbuf, ver);
-  return 0;
-}
-
-
-int WRAP_STAT64_TIME64 STAT64_TIME64_ARG(int ver,
-		       const char *file_name,
-		       struct stat64 *st){
-  int r;
-
-#ifdef LIBFAKEROOT_DEBUGGING
-  if (fakeroot_debug) {
-    fprintf(stderr, "stat64[time64] file_name %s\n", file_name);
-  }
-#endif /* LIBFAKEROOT_DEBUGGING */
-  r=NEXT_STAT64_TIME64(ver, file_name, st);
-  if(r)
-    return -1;
-  SEND_GET_STAT64(st,ver);
-  return 0;
-}
-
-
-int WRAP_FSTAT64_TIME64 FSTAT64_TIME64_ARG(int ver,
-			int fd,
-			struct stat64 *st){
-
-  int r;
-
-#ifdef LIBFAKEROOT_DEBUGGING
-  if (fakeroot_debug) {
-    fprintf(stderr, "fstat64[time64] fd %d\n", fd);
-  }
-#endif /* LIBFAKEROOT_DEBUGGING */
-  r=NEXT_FSTAT64_TIME64(ver, fd, st);
-  if(r)
-    return -1;
-  SEND_GET_STAT64(st,ver);
-  return 0;
-}
-
-int WRAP_FSTATAT64_TIME64 FSTATAT64_TIME64_ARG(int ver,
-			     int dir_fd,
-			     const char *path,
-			     struct stat64 *st,
-			     int flags){
-
-
-  int r;
-
-  r=NEXT_FSTATAT64_TIME64(ver, dir_fd, path, st, flags);
-  if(r)
-    return -1;
-  SEND_GET_STAT64(st,ver);
-  return 0;
-}
-
-#endif /* TIME64_HACK */

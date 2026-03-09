@@ -1,7 +1,8 @@
 .de  CW
 .sp
 .nf
-.ft CW
+.ie \n(.g .ft CR
+.el .ft CW
 ..
 .\" Process this file with
 .\" groff -man -Tascii foo.1
@@ -18,17 +19,17 @@
 .\" This file was generated with po4a. Translate the source file.
 .\"
 .\"*******************************************************************
-.TH fakeroot 1 "5 October 2014" "Proyecto Debian" "Manual de Debian"
+.TH fakeroot 1 2024\-12\-19 "Proyecto Debian" "Manual de Debian"
 .\" Manpage by J.H.M. Dassen <jdassen@debian.org>
 .\" and Clint Adams <clint@debian.org>
 .SH NOMBRE
 fakeroot \- ejecuta una orden en un entorno que falsea privilegios de
 superusuario para la manipulación de ficheros
 .SH SINOPSIS
-\fBfakeroot\fP \fB[\-l|\-\-lib\fP \fIbiblioteca]\fP \fB[\-\-faked\fP \fIbinario\-faked\fP\fB]\fP
-\fB[\-i\fP \fIfichero\-a\-cargar\fP\fB]\fP \fB[\-s\fP \fIfichero\-salvado\fP\fB]\fP
-\fB[\-u|\-\-unknown\-is\-real ]\fP \fB[\-b|\-\-fd\-base ]\fP \fB[\-h|\-\-help ]\fP
-\fB[\-v|\-\-version ]\fP \fB[\-\-]\fP \fB[orden]\fP
+\fBfakeroot\fP [\fB\-l\fP|\fB\-\-lib\fP \fIlibrary\fP] [\fB\-\-faked\fP \fIfaked\-binary\fP] [\fB\-i\fP
+\fIload\-file\fP] [\fB\-s\fP \fIsave\-file\fP] [\fB\-u\fP|\fB\-\-unknown\-is\-real\fP]
+[\fB\-b\fP|\fB\-\-fd\-base\fP] [\fB\-h\fP|\fB\-\-help\fP] [\fB\-v\fP|\fB\-\-version\fP] [\fB\-\-\fP]
+[\fIcommand\fP]
 .SH DESCRIPCIÓN
 \fBfakeroot\fP ejecuta una orden en un entorno donde parece que se tiene
 permisos de superusuario para la manipulación de ficheros. Útil para
@@ -52,11 +53,10 @@ fakeroot). Si estas pruebas fallan (por ejemplo, porque tiene ciertos
 programas libc5 en el sistema), también fallará la construcción de otros
 paquetes mediante fakeroot, pero de formas mucho más sutiles.
 
-Además, dese cuenta que es mejor no realizar la compilación de los binarios
-bajo fakeroot. Especialmente configure y demás programas del estilo no se
-comportan bien cuando el sistema se comporta de forma diferente a la
-esperada. (o, de forma aleatoria, estos programas eliminan algunas variables
-de entorno, algunas de las cuales necesita fakeroot).
+Also, note that it's best not to do the building of the binaries themselves
+under fakeroot. Especially configure and friends don't like it when the
+system suddenly behaves differently from what they expect (or, they randomly
+unset some environment variables, some of which fakeroot needs).
 
 .SH OPCIONES
 .TP 
@@ -67,9 +67,8 @@ Especifica una biblioteca envoltorio.
 Especifica un binario alternativo a usar en vez de faked.
 .TP 
 \fB[\-\-]\fP\fI\ orden\fP
-Cualquier orden que quieras ejecutar bajo fakeroot. Use \(oq\-\-\(cq si en la
-orden tiene otras opciones que puedan confundir el análisis de las opciones
-de fakeroot.
+Any command you want to be run as fakeroot. Use \(oq\-\-\(cq if in the command
+you have other options that may confuse fakeroot's option parsing.
 .TP 
 \fB\-s\fP\fI\ fichero\-salvado\fP
 Guarda el entorno fakeroot en fichero\-salvado al salir. Este fichero puede
@@ -137,10 +136,10 @@ $ ls \-ld hda3
 Sólo las operaciones que el usuario \fBjoost\fP puede hacer se llevan a cabo
 realmente.
 
-\fBfakeroot\fP se escribió específicamente para permitir que los usuario
-pudiesen crear paquetes (en el formato \fBdeb(5)\fP ) sin tener privilegios de
-superusuario.  Esto puede hacerse con órdenes como \fBdpkg\-buildpackage \-rfakeroot\fP o \fBdebuild \-rfakeroot\fP (realmente, \-rfakeroot es predeterminado
-en debuild en estos momentos, así que no necesita el argumento).
+\fBfakeroot\fP was specifically written to enable users to create Debian
+GNU/Linux packages (in the \fBdeb\fP(5)  format) without giving them root
+privileges.  This can be done by commands like \fBdpkg\-buildpackage \-rfakeroot\fP or \fBdebuild \-rfakeroot\fP (actually, \-rfakeroot is default in
+debuild nowadays, so you don't need that argument).
 .SH "ASPECTOS DE SEGURIDAD"
 \fBfakeroot\fP es un programa normal, sin el bit setuid. No aumenta los
 privilegios de un usuario ni disminuye la seguridad del sistema.
@@ -149,21 +148,19 @@ privilegios de un usuario ni disminuye la seguridad del sistema.
 functions.
 .SH ENTORNO
 .IP \fBFAKEROOTKEY\fP
-La llave usada para comunicarse con el demonio fakeroot. Cualquier programa
-comenzado con el \fBLD_PRELOAD\fP correcto y la \fBFAKEROOTKEY\fP de un demonio en
-ejecución conectará automáticamente con ese demonio, y tendrá la misma
-visión "falsa" de los permisos/propietarios de los ficheros del
-sistema. (sumiendo que el demonio y el programa que se conecta los ejecute
-el mismo usuario).
+The key used to communicate with the fakeroot daemon. Any program started
+with the right \fBLD_PRELOAD\fP and a \fBFAKEROOTKEY\fP of a running daemon will
+automatically connect to that daemon, and have the same "fake" view of the
+file system's permissions/ownerships (assuming the daemon and connecting
+program were started by the same user).
 .IP \fBLD_LIBRARY_PATH\fP
 .IP \fBLD_PRELOAD\fP
-Fakeroot está implementado envolviendo las llamadas al sistema. Esto se
-realiza modificando las variables de entorno de forma que queden como
-LD_LIBRARY_PATH=/usr/lib/fakeroot y LD_PRELOAD=libfakeroot.so.0. Esa
-biblioteca se carga antes que la biblioteca de C del sistema, y de esa forma
-se interceptan gran parte de las llamadas al sistema. Si necesita modificar
-\fBLD_LIBRARY_PATH\fP o \fBLD_PRELOAD\fP dentro de un entorno fakeroot, deberán
-quedar establecidos de forma relativa, como en
+fakeroot is implemented by wrapping system calls.  This is accomplished by
+setting LD_LIBRARY_PATH=/usr/lib/fakeroot and LD_PRELOAD=libfakeroot.so.0.
+That library is loaded before the system's C library, and so most of the
+library functions are intercepted by it.  If you need to set either
+\fBLD_LIBRARY_PATH\fP or \fBLD_PRELOAD\fP from within a fakeroot environment, it
+should be set relative to the given paths, as in
 \fBLD_LIBRARY_PATH=$LD_LIBRARY_PATH:/foo/bar/\fP
 
 .SH LIMITACIONES
@@ -174,9 +171,9 @@ de la biblioteca de C del mismo \fBfakeroot.\fP
 fakeroot no envuelve open(), create(), etc. Así, que si el usuario \fBjoost\fP
 hace
 .CW
-touch tal
+touch foo
 fakeroot
-ls \-al tal
+ls \-al foo
 .CE
 o del otro modo,
 .CW
@@ -184,22 +181,23 @@ fakeroot
 touch tal
 ls \-al tal
 .CE
-fakeroot no puede saber en el primer caso que, el propietario de tal
-realmente debe ser \fBjoost\fP mientras que en el segundo debe ser \fBroot\fP.
-Para los paquetes Debian, dar a todos los ficheros "desconocidos" uid=gid=0
-por omisión, está siempre bien. La forma real de solucionar esto es envolver
-\fBopen()\fP y \fBcreate()\fP, pero esto crea otros problemas, como demuestra el
-paquete libtricks. Este paquete envuelve más funciones, e intenta hacer más
-cosas que \fBfakeroot .\fP Se vio que una pequeña actualización de libc (de una
-donde la función \fBstat()\fP no usaba \fBopen()\fP a otra en la que \fBstat()\fP
-usaba (en algunas ocasiones)  \fBopen()\fP), causaba violaciones de segmento
-inexplicables (esto es, el \fBstat()\fP de libc6 llamaba el \fBopen()\fP envuelto,
-que luego llamaba al \fBstat()\fP de libc6, etc). Arreglarlo no fue tan
-difícil, pero una vez arreglado, es cuestión de tiempo antes de que otra
-función empiece a usar open(), ni hablar de portarlo a otro sistema
-operativo. Así que decidí reducir al máximo el número de funciones envuelta
-por fakeroot, para limitar la probabilidad de \(oqcolisiones\(cq.
-.IP "\fBGNU configure (y otros programas por el estilo)\fP"
+fakeroot has no way of knowing that in the first case, the owner of foo
+really should be \fBjoost\fP while the second case it should have been
+\fBroot\fP.  For the Debian packaging, defaulting to giving all "unknown" files
+uid=gid=0, is always OK. The real way around this is to wrap \fBopen()\fP and
+\fBcreate()\fP, but that creates other problems, as demonstrated by the
+libtricks package. This package wrapped many more functions, and tried to do
+a lot more than \fBfakeroot .\fP It turned out that a minor upgrade of libc
+(from one where the \fBstat\fP()  function didn't use \fBopen\fP()  to one with a
+\fBstat\fP()  function that did (in some cases) use \fBopen\fP() ), would cause
+unexplainable segfaults (that is, the libc6 \fBstat\fP()  called the wrapped
+\fBopen\fP() , which would then call the libc6 \fBstat\fP() , etc).  Fixing them
+wasn't all that easy, but once fixed, it was just a matter of time before
+another function started to use open(), never mind trying to port it to a
+different operating system. Thus I decided to keep the number of functions
+wrapped by fakeroot as small as possible, to limit the likelihood of
+\(oqcollisions\(cq.
+.IP "GNU configure (and other such programs)"
 fakeroot, en efecto, cambia el comportamiento del sistema. Los programas que
 prueban el sistema, como GNU configure, pueden verse confundidos por esto (o
 si no lo hacen, llevarán a fakeroot tan al límite que será este el que se
@@ -230,11 +228,10 @@ Clint Adams
 .TP 
 Timo Savola
 .SH TRADUCTOR
-Traducci�n de Rub�n Porras Campo <debian\-l10n\-spanish@lists.debian.org>
+Traducción de Rubén Porras Campo <debian\-l10n\-spanish@lists.debian.org>
 .SH "PÁGINA DEL MANUAL"
-la mayor parte de J.H.M. Dassen <jdassen@debian.org> con muchas
-modificaciones y añadiduras de joost y Clint.
+mostly by J.H.M. Dassen \fB<\fP\fIjdassen@debian.org\fP\fB>\fP with rather a
+lot of modsifications and additions by joost and Clint.
 .SH "VÉASE ADEMÁS"
-\fBfaked\fP(1)  \fBdpkg\-buildpackage\fP(1), \fBdebuild\fP(1)
+\fBdebuild\fP(1), \fBdpkg\-buildpackage\fP(1), \fBfaked\fP(1),
 \fB/usr/share/doc/fakeroot/DEBUG\fP
-
