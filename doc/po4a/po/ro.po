@@ -1,25 +1,31 @@
-# Translation of the fakeroot manpage to German.
-# Copyright (C) 1997-2001 Joost Witteveen, 2002-2009 Clint Adams,
-#               2009 Regis Duchesne.
+# Romanian translation of fakeroot-man.
+# Mesajele în limba română pentru manualul fakeroot.
+# Copyright © 2023, 2025 Free Software Foundation, Inc.
 # This file is distributed under the same license as the fakeroot package.
-# Copyright (C) of this file 2011, 2023 Chris Leick.
-# Christoph Brinkhaus <c.brinkhaus@t-online.de>, 2024.
+#
+# Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>, 2023 - 2025.
+#
+# Cronologia traducerii fișierului „fakeroot-man”:
+# Traducerea inițială, făcută de R-GC, pentru versiunea fakeroot 1.32.1-1, oct-2023.
+# Actualizare a traducerii pentru versiunea 1.37-1, făcută de R-GC, mar-2025.
+# Actualizare a traducerii pentru versiunea 1.37.1.1, făcută de R-GC, mar-2025.
+# Actualizare a traducerii pentru versiunea Y, făcută de X, Y(luna-anul).
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: fakeroot 1.36-2-1\n"
-"Report-Msgid-Bugs-To: fakeroot@packages.debian.org\n"
+"Project-Id-Version: fakeroot 1.37.1.1\n"
 "POT-Creation-Date: 2025-03-16 10:30-0400\n"
-"PO-Revision-Date: 2025-04-30 10:21+0200\n"
-"Last-Translator: Christoph Brinkhaus <c.brinkhaus@t-online.de>\n"
-"Language-Team: German <debian-l10n-german@lists.debian.org>\n"
-"Language: de\n"
+"PO-Revision-Date: 2025-03-26 12:48+0100\n"
+"Last-Translator: Remus-Gabriel Chelu <remusgabriel.chelu@disroot.org>\n"
+"Language-Team: Romanian <debian-l10n-romanian@lists.debian.org>\n"
+"Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n==0 || (n!=1 && n%100>=1 && "
+"n%100<=19) ? 1 : 2);\n"
+"X-Generator: Poedit 3.5\n"
 
-# type: TH
 #. type: TH
 #: ../doc/fakeroot.1:17
 #, no-wrap
@@ -30,30 +36,27 @@ msgstr "fakeroot"
 #: ../doc/fakeroot.1:17 ../doc/faked.1:16
 #, no-wrap
 msgid "2024-12-19"
-msgstr "19. Dezember 2024"
+msgstr "19 decembrie 2024"
 
-# type: TH
 #. type: TH
 #: ../doc/fakeroot.1:17 ../doc/faked.1:16
 #, no-wrap
 msgid "Debian Project"
-msgstr "Debian-Projekt"
+msgstr "Proiectul Debian"
 
-# type: TH
 #. type: TH
 #: ../doc/fakeroot.1:17 ../doc/faked.1:16
 #, no-wrap
 msgid "Debian manual"
-msgstr "Debian-Handbuch"
+msgstr "Manual de Debian"
 
-# type: SH
 #.  Manpage by J.H.M. Dassen <jdassen@debian.org>
 #.  and Clint Adams
 #. type: SH
 #: ../doc/fakeroot.1:20 ../doc/faked.1:19
 #, no-wrap
 msgid "NAME"
-msgstr "NAME"
+msgstr "NUME"
 
 #. type: Plain text
 #: ../doc/fakeroot.1:23
@@ -61,14 +64,14 @@ msgid ""
 "fakeroot - run a command in an environment faking root privileges for file "
 "manipulation"
 msgstr ""
-"fakeroot - einen Befehl zur Dateimanipulation in einer Umgebung mit "
-"gefälschten Root-Rechten ausführen"
+"fakeroot - rulează o comandă într-un mediu care simulează privilegii de root "
+"pentru manipularea fișierelor"
 
 #. type: SH
 #: ../doc/fakeroot.1:23 ../doc/faked.1:22
 #, no-wrap
 msgid "SYNOPSIS"
-msgstr "ÜBERSICHT"
+msgstr "REZUMAT"
 
 #. type: Plain text
 #: ../doc/fakeroot.1:39
@@ -77,17 +80,17 @@ msgid ""
 "I<load-file>] [B<-s> I<save-file>] [B<-u>|B<--unknown-is-real>] [B<-b>|B<--"
 "fd-base>] [B<-h>|B<--help>] [B<-v>|B<--version>] [B<-->] [I<command>]"
 msgstr ""
-"B<fakeroot> [B<-l>|B<--lib> I<Bibliothek>] [B<--faked> I<gefälschtes_Programm>] [B<-i> "
-"I<lzu_ladende_Datei>] [B<-s> I<zu_speichernde_Datei>] [B<-u>|B<--unknown-is-real>] [B<-b>|B<--"
-"fd-base>] [B<-h>|B<--help>] [B<-v>|B<--version>] [B<-->] [I<Befehl>]"
+"B<fakeroot> [B<-l>|B<--lib> I<biblioteca>] [B<--faked> "
+"I<binar_precum_faked>] [B<-i> I<fișier-încărcare>] [B<-s> I<fișier-de-"
+"salvare>] [B<-u>|B<--unknown-is-real>] [B<-b>|B<--fd-base>] [B<-h>|B<--"
+"help>] [B<-v>|B<--version>] [B<-->] [I<comanda>]"
 
 #. type: SH
 #: ../doc/fakeroot.1:39 ../doc/faked.1:30
 #, no-wrap
 msgid "DESCRIPTION"
-msgstr "BESCHREIBUNG"
+msgstr "DESCRIERE"
 
-# FIXME .deb → deb
 #. type: Plain text
 #: ../doc/fakeroot.1:50
 msgid ""
@@ -99,18 +102,14 @@ msgid ""
 "permissions and ownership, and then pack them up, or one would have to "
 "construct the archives directly, without using the archiver."
 msgstr ""
-"B<fakeroot> führt einen Befehl in einer Umgebung aus, in der es scheint, als "
-"habe er Root-Rechte zur Dateimanipulation. Dies ist nützlich, um Benutzern "
-"zu erlauben, Archive (tar, ar, deb usw.) mit Dateien darin zu erstellen, die "
-"Root-Rechte haben und Root gehören. Ohne B<fakeroot> müsste jemand Root-"
-"Rechte haben, um die einzelnen Dateien des Archivs mit den korrekten "
-"Zugriffsrechten und Eigentümerschaften zu erstellen und sie zu verpacken "
-"oder jemand müsste diese Archive direkt, ohne Benutzung des "
-"Archivierungsprogramms, erstellen."
+"B<fakeroot> execută o comandă într-un mediu în care pare să aibă privilegii "
+"de root pentru manipularea fișierelor.  Acest lucru este util pentru a "
+"permite utilizatorilor să creeze arhive (tar, ar, .deb etc.) care conțin "
+"fișiere cu permisiuni/proprietate de root.  Fără B<fakeroot> ar trebui să se "
+"aibă privilegii de root pentru a crea fișierele constitutive ale arhivelor "
+"cu permisiunile și proprietatea corecte și apoi să le împacheteze, sau ar "
+"trebui să se construiască arhivele direct, fără a se utiliza arhivatorul."
 
-# FIXME chmod(2) → B<chmod>(2)
-# FIXME stat(2) → B<stat>(2)
-# FIXME missing final stop
 #. type: Plain text
 #: ../doc/fakeroot.1:62
 msgid ""
@@ -121,16 +120,15 @@ msgid ""
 "location on your platform.  The shared object is loaded through the "
 "B<LD_PRELOAD> mechanism of the dynamic loader. (See B<ld.so>(8))"
 msgstr ""
-"B<fakeroot> funktioniert, indem es die Bibliotheksfunktionen zur "
-"Dateimanipulation (B<chmod>(2), B<stat>(2) usw.) durch solche ersetzt, die "
-"die Auswirkungen simulieren, die die echten Funktionen hätten, wenn der "
-"Benutzer Root wäre. Diese Wrapper-Funktionen liegen in einer dynamischen "
-"Bibliothek B</usr/lib/*/libfakeroot.so*> oder einem ähnlichen Ort auf Ihrer "
-"Plattform. Die Laufzeitbibliothek wird durch den B<LD_PRELOAD>-Mechanismus "
-"des dynamischen Ladeprogramms geladen. (Siehe B<ld.so>(8))."
+"B<fakeroot> funcționează prin înlocuirea funcțiilor de manipulare a "
+"fișierelor din bibliotecă (chmod(2), stat(2) etc.) cu funcții care simulează "
+"efectul pe care l-ar fi avut funcțiile reale de bibliotecă, dacă "
+"utilizatorul ar fi fost cu adevărat root. Aceste funcții de învăluire se "
+"află într-o bibliotecă partajată B</usr/lib/*/libfakeroot-*.so> sau într-o "
+"locație similară pe platforma dumneavoastră.  Obiectul partajat este "
+"încărcat prin intermediul mecanismului B<LD_PRELOAD> al încărcătorului "
+"dinamic. (A se vedea B<ld.so>(8))"
 
-# FIXME fakeroot → B<fakeroot>
-# type: Plain text
 #. type: Plain text
 #: ../doc/fakeroot.1:72
 msgid ""
@@ -141,16 +139,14 @@ msgid ""
 "packages you build with fakeroot will quite likely fail too, but possibly in "
 "much more subtle ways."
 msgstr ""
-"Falls Sie beabsichtigen, Pakete mit B<fakeroot> zu bauen, versuchen Sie "
-"bitte zuerst, das B<fakeroot>-Paket zu bauen: Die Stufe »debian/rules build« "
-"enthält ein paar Tests (meist wird getestet, ob Fehler in alten B<fakeroot>-"
-"Versionen vorliegen). Falls diese Tests fehlschlagen (zum Beispiel, weil Sie "
-"bestimmte Libc5-Programme auf Ihrem System haben), wird der Bau anderer "
-"Pakete mit B<fakeroot> ziemlich wahrscheinlich ebenfalls scheitern, aber "
-"möglicherweise auf eine subtilere Art."
+"Dacă intenționați să construiți pachete cu B<fakeroot>, vă rugăm să "
+"încercați să construiți mai întâi pachetul „fakeroot”: etapa «debian/rules "
+"build» are câteva teste (testând mai ales pentru erorile din vechile "
+"versiuni «fakeroot»). Dacă aceste teste eșuează (de exemplu, pentru că aveți "
+"anumite programe libc5 pe sistemul dumneavoastră), este foarte probabil ca "
+"și alte pachete pe care le construiți cu «fakeroot» să eșueze, dar posibil "
+"în moduri mult mai subtile."
 
-# FIXME fakeroot → B<fakeroot>
-# type: Plain text
 #. type: Plain text
 #: ../doc/fakeroot.1:78
 msgid ""
@@ -159,77 +155,62 @@ msgid ""
 "system suddenly behaves differently from what they expect (or, they randomly "
 "unset some environment variables, some of which fakeroot needs)."
 msgstr ""
-"Beachten Sie außerdem, dass es am Besten ist, nicht den Bau der Pakete "
-"selbst unter B<fakeroot> vorzunehmen. Insbesondere mögen es »configure« und "
-"Co. nicht, wenn sich das System plötzlich anders als von ihnen erwartet "
-"verhält (oder sie löschen zufällig den Inhalt einiger Umgebungsvariablen, "
-"die B<fakeroot> benötigt)."
+"De asemenea, rețineți că cel mai bine este să nu construiți fișierele binare "
+"sub «fakeroot». În special lui «configure» și prietenilor săi nu le place "
+"când sistemul se comportă brusc diferit de ceea ce se așteaptă (sau, aceștia "
+"dereglează la întâmplare unele variabile de mediu, dintre care unele sunt "
+"necesare pentru «fakeroot»)."
 
-# type: SH
 #. type: SH
 #: ../doc/fakeroot.1:79 ../doc/faked.1:39
 #, no-wrap
 msgid "OPTIONS"
-msgstr "OPTIONEN"
+msgstr "OPȚIUNI"
 
-# type: TP
 #. type: TP
 #: ../doc/fakeroot.1:80
 #, no-wrap
 msgid "B<-l> I<library>, B<--lib> I<library>"
-msgstr "B<-l> I<Bibliothek>, B<--lib> I<Bibliothek>"
+msgstr "B<-l> I<biblioteca>, B<--lib> I<biblioteca>"
 
-# type: Plain text
 #. type: Plain text
 #: ../doc/fakeroot.1:83
 msgid "Specify an alternative wrapper library."
-msgstr "Gibt eine alternative Wrapper-Bibliothek an."
+msgstr "Specifică o bibliotecă de învăluire alternativă."
 
-# type: TP
 #. type: TP
 #: ../doc/fakeroot.1:83
 #, no-wrap
 msgid "B<--faked>I<\\ binary>"
-msgstr "B<--faked>I<\\ Programm>"
+msgstr "B<--faked>I<\\ binar>"
 
-# FIXME fakeed → B<faked>(1)
-# type: Plain text
 #. type: Plain text
 #: ../doc/fakeroot.1:86
 msgid "Specify an alternative binary to use as faked."
-msgstr ""
-"Gibt ein alternatives Programm an, das anstatt B<faked>(1) verwendet werden "
-"soll."
+msgstr "Specifică un binar alternativ care să fie utilizat ca faked(1)."
 
-# type: TP
 #. type: TP
 #: ../doc/fakeroot.1:86
 #, no-wrap
 msgid "B<[--]>I<\\ command>"
-msgstr "B<[--]>I<\\ Befehl>"
+msgstr "B<[--]>I<\\ comanda>"
 
-# FIXME fakeroot → B<fakeroot>
-# type: Plain text
 #. type: Plain text
 #: ../doc/fakeroot.1:90
 msgid ""
 "Any command you want to be run as fakeroot. Use \\(oq--\\(cq if in the "
 "command you have other options that may confuse fakeroot's option parsing."
 msgstr ""
-"Jeder Befehl, den Sie als B<fakeroot> ausführen möchten. Benutzen Sie »--«, "
-"falls Sie im Befehl andere Optionen haben, die B<fakeroot> bei der "
-"Auswertung der Optionen verwirren könnte."
+"Orice comandă ce care doriți să fie executată sub «fakeroot» (ca root "
+"simulat). Folosiți \\(oq--\\(cq(cq dacă în comandă aveți alte opțiuni care "
+"pot deruta analiza opțiunilor lui «fakeroot»."
 
-# type: TP
 #. type: TP
 #: ../doc/fakeroot.1:90
 #, no-wrap
 msgid "B<-s>I<\\ save-file>"
-msgstr "B<-s>I<\\ zu_speichernde_Datei>"
+msgstr "B<-s>I<\\ fișier-de-salvare>"
 
-# FIXME -i → B<-i>
-# FIXME rsync(1) → B<rsync>(1)
-# type: Plain text
 #. type: Plain text
 #: ../doc/fakeroot.1:101
 msgid ""
@@ -242,28 +223,23 @@ msgid ""
 "needing to be root. See I</usr/share/doc/fakeroot/README.saving> for more "
 "details."
 msgstr ""
-"Speichert die B<fakeroot>-Umgebung beim Beenden in I<zu_speichernde_Datei>. "
-"Diese Datei kann benutzt werden, um die Umgebung später mit B<-i> "
-"wiederherzustellen. Diese Datei wird jedoch inkonsistent sein und "
-"B<fakeroot> wird sich seltsam verhalten, wenn Sie die Dateien verändern, "
-"wenn Sie sich außerhalb der Umgebung befinden. Dies kann dennoch nützlich "
-"sein. Sie kann beispielsweise mit B<rsync>(1) benutzt werden, um ganze "
-"Verzeichnisbäume mit Benutzer-, Gruppen und Geräteinformationen zu sichern "
-"und wiederherzustellen, ohne dass Sie Root sein müssen. Weitere Einzelheiten "
-"finden Sie in I</usr/share/doc/fakeroot/README.saving>."
+"Salvează mediul „fakeroot” în fișierul-de-salvare la ieșire. Acest fișier "
+"poate fi utilizat pentru a restaura mediul mai târziu, utilizând opțiunea „-"
+"i”. Cu toate acestea, acest fișier va avea pierderi de informații și "
+"«fakeroot» se va comporta de-o formă ciudată dacă nu lăsați fișierele "
+"modificate în interiorul mediului „fakeroot” neatinse atunci când sunteți în "
+"afara mediului. Totuși, acest lucru poate fi util. De exemplu, poate fi "
+"utilizat cu rsync(1) pentru a face copii de rezervă și a restaura arbori "
+"întregi de directoare, cu informații despre utilizatori, grupuri și "
+"dispozitive, fără a fi nevoie să fiți root. Consultați I</usr/share/doc/"
+"fakeroot/README.saving> pentru mai multe detalii."
 
-# type: TP
 #. type: TP
 #: ../doc/fakeroot.1:101
 #, no-wrap
 msgid "B<-i>I<\\ load-file>"
-msgstr "B<-i>I<\\ zu_ladende_Datei>"
+msgstr "B<-i>I<\\ fișier-încărcare>"
 
-# FIXME s/-s/B<-s>/
-# FIXME s/-i/B<-i>/
-# FIXME fakeroot → B<fakeroot>
-# type: Plain text
-# s/save/safe/
 #. type: Plain text
 #: ../doc/fakeroot.1:108
 msgid ""
@@ -272,40 +248,33 @@ msgid ""
 "behaviour. Using the same file for both -i and -s in a single B<fakeroot> "
 "invocation is safe."
 msgstr ""
-"Lädt eine vorher mit B<-s> gespeicherte B<fakeroot>-Umgebung aus "
-"I<zu_ladende_Datei>. Beachten Sie, dass dies nicht implizit die Datei "
-"speichert, benutzen Sie für dieses Verhalten zusätzlich B<-s>. Die Benutzung "
-"der gleichen Datei sowohl für B<-i> als auch für B<-s> in einem einzigen "
-"B<fakeroot>-Aufruf ist problemlos möglich."
+"Încarcă un mediu „fakeroot” salvat anterior folosind opțiunea „-s” din "
+"fișier-încărcare.  Rețineți că această opțiune nu salvează implicit "
+"fișierul, utilizați și opțiunea „-i” pentru acest comportament. Utilizarea "
+"aceluiași fișier ca argument atât pentru „-i”, cât și pentru „-s” într-o "
+"singură invocare B<fakeroot> este sigură."
 
-# type: TP
 #. type: TP
 #: ../doc/fakeroot.1:108
 #, no-wrap
 msgid "B<-u>, B<--unknown-is-real>"
 msgstr "B<-u>, B<--unknown-is-real>"
 
-# FIXME fakeroot → B<fakeroot>
-# type: Plain text
 #. type: Plain text
 #: ../doc/fakeroot.1:112
 msgid ""
 "Use the real ownership of files previously unknown to fakeroot instead of "
 "pretending they are owned by root:root."
 msgstr ""
-"Benutzt die echten Eigentümerschaften von Dateien, die B<fakeroot> vorher "
-"unbekannt waren, anstatt so zu tun, als gehörten sie »root:root«."
+"Utilizează proprietatea reală a fișierelor necunoscute anterior de "
+"«fakeroot», în loc să pretindă că acestea sunt deținute de root:root."
 
-# type: TP
 #. type: TP
 #: ../doc/fakeroot.1:112
 #, no-wrap
 msgid "B<-b>I<\\ fd>"
-msgstr "B<-b>I<\\ Datei_Deskriptor>"
+msgstr "B<-b>I<\\ fd>"
 
-# FIXME fd → B<fd>
-# FIXME fakeroot → B<fakeroot>
-# type: Plain text
 #. type: Plain text
 #: ../doc/fakeroot.1:118
 msgid ""
@@ -313,45 +282,40 @@ msgid ""
 "use for TCP connections; this may be important to avoid conflicts with the "
 "file descriptors used by the programs being run under fakeroot."
 msgstr ""
-"Gibt die Datei-Deskriptor-Basis an (nur im TCP-Modus). I<Datei_Deskriptor> "
-"ist die minimale Datei-Deskriptor-Nummer, die für TCP-Verbindungen benutzt "
-"wird; dies könnte wichtig sein, um Konflikte mit den Datei-Deskriptoren von "
-"Programmen zu vermeiden, die unter B<fakeroot> laufen."
+"Specifică valoarea de bază a descriptorului de fișier (numai în modul TCP). "
+"fd este numărul minim al descriptorului de fișiere care trebuie utilizat "
+"pentru conexiunile TCP; acest lucru poate fi important pentru a evita "
+"conflictele cu descriptorii de fișiere utilizați de programele care rulează "
+"sub «fakeroot»."
 
-# type: TP
 #. type: TP
 #: ../doc/fakeroot.1:118
 #, no-wrap
 msgid "B<-h>"
 msgstr "B<-h>"
 
-# type: Plain text
 #. type: Plain text
 #: ../doc/fakeroot.1:121
 msgid "Display help."
-msgstr "Zeigt die Hilfe an."
+msgstr "Afișează mesajul de ajutor."
 
-# type: TP
 #. type: TP
 #: ../doc/fakeroot.1:121
 #, no-wrap
 msgid "B<-v>"
 msgstr "B<-v>"
 
-# type: Plain text
 #. type: Plain text
 #: ../doc/fakeroot.1:124
 msgid "Display version."
-msgstr "Zeigt die Version an."
+msgstr "Afișează informațiile despre versiune."
 
-# type: SH
 #. type: SH
 #: ../doc/fakeroot.1:125
 #, no-wrap
 msgid "EXAMPLES"
-msgstr "BEISPIELE"
+msgstr "EXEMPLE"
 
-# type: Plain text
 #. type: Plain text
 #: ../doc/fakeroot.1:130
 msgid ""
@@ -359,11 +323,10 @@ msgid ""
 "root environment file manipulation that requires root privileges succeeds, "
 "but is not really happening."
 msgstr ""
-"Es folgt eine Beispielsitzung mit B<fakeroot>. Beachten Sie, dass innerhalb "
-"der gefälschten Root-Umgebung eine Dateimanipulation, die Root-Rechte "
-"erfordert, erfolgreich ist, obwohl sie nicht wirklich stattfindet."
+"Iată un exemplu de sesiune cu B<fakeroot>.  Observați că în interiorul "
+"mediului de root fals (simulat), manipularea de fișiere ce necesită "
+"privilegii de root reușește, dar nu se întâmplă cu adevărat."
 
-# type: Plain text
 #. type: Plain text
 #: ../doc/fakeroot.1:153
 #, no-wrap
@@ -398,30 +361,29 @@ msgstr ""
 "root\n"
 "# mknod hda3 b 3 1\n"
 "# ls -ld hda3\n"
-"brw-r--r--   1 root     root       3,   1 Jul  2 22:58 hda3\n"
+"brw-r--r--   1 root     root       3,   1 iul  2 22:58 hda3\n"
 "# chown joost:root hda3\n"
 "# ls -ld hda3\n"
-"brw-r--r--   1 joost    root       3,   1 Jul  2 22:58 hda3\n"
+"brw-r--r--   1 joost    root       3,   1 iul  2 22:58 hda3\n"
 "# ls -ld /\n"
-"drwxr-xr-x  20 root     root         1024 Jun 17 21:50 /\n"
+"drwxr-xr-x  20 root     root         1024 iun 17 21:50 /\n"
 "# chown joost:users /\n"
 "# chmod a+w /\n"
 "# ls -ld /\n"
-"drwxrwxrwx  20 joost    users        1024 Jun 17 21:50 /\n"
+"drwxrwxrwx  20 joost    users        1024 iun 17 21:50 /\n"
 "# exit\n"
 "$ ls -ld /\n"
-"drwxr-xr-x  20 root     root         1024 Jun 17 21:50 //\n"
+"drwxr-xr-x  20 root     root         1024 iun 17 21:50 //\n"
 "$ ls -ld hda3\n"
-"-rw-r--r--   1 joost    users           0 Jul  2 22:58 hda3\n"
+"-rw-r--r--   1 joost    users           0 iul  2 22:58 hda3\n"
 
 #. type: Plain text
 #: ../doc/fakeroot.1:157
 msgid "Only the effects that user B<joost> could do anyway happen for real."
 msgstr ""
-"In Wirklichkeit geschieht nur das, was Benutzer B<joost> sowieso tun könnte."
+"Doar efectele acțiunilor pe care utilizatorul B<joost> le-ar putea face "
+"oricum, se întâmplă cu adevărat."
 
-# FIXME debuild → B<debuild>(1)
-# FIXME -rfakeroot → B<-rfakeroot>
 #. type: Plain text
 #: ../doc/fakeroot.1:169
 msgid ""
@@ -431,18 +393,18 @@ msgid ""
 "-rfakeroot> or B<debuild -rfakeroot> (actually, -rfakeroot is default in "
 "debuild nowadays, so you don't need that argument)."
 msgstr ""
-"B<fakeroot> wurde insbesondere geschrieben, um es Benutzern zu ermöglichen, "
-"Debian-GNU/Linux-Pakete (im B<deb>(5)-Format) zu erstellen, ohne ihnen Root-"
-"Rechte zu geben. Dies kann durch Befehle wie B<dpkg-buildpackage -rfakeroot> "
-"oder B<debuild -rfakeroot> erledigt werden (tatsächlich ist B<-rfakeroot> "
-"heutzutage in B<debuild>(1) Vorgabe, so dass Sie dieses Argument nicht "
-"brauchen)."
+"B<fakeroot> a fost scris special pentru a permite utilizatorilor să creeze "
+"pachete Debian GNU/Linux (în formatul B<deb>(5)) fără a le oferi privilegii "
+"de root.  Acest lucru se poate face prin comenzi precum B<dpkg-buildpackage "
+"-rfakeroot> sau B<debuild -rfakeroot> (de fapt, „-rfakeroot” este implicit "
+"în «debuild» în momentul de față, așa că nu mai aveți nevoie de acest "
+"argument)."
 
 #. type: SH
 #: ../doc/fakeroot.1:169
 #, no-wrap
 msgid "SECURITY ASPECTS"
-msgstr "SICHERHEITSASPEKTE"
+msgstr "ASPECTE DE SECURITATE"
 
 #. type: Plain text
 #: ../doc/fakeroot.1:173
@@ -450,14 +412,15 @@ msgid ""
 "B<fakeroot> is a regular, non-setuid program. It does not enhance a user's "
 "privileges, or decrease the system's security."
 msgstr ""
-"B<fakeroot> ist ein normales, Nicht-Setuid-Programm. Es erweitert weder die "
-"Benutzerrechte, noch vermindert es die Sicherheit des Systems."
+"B<fakeroot> este un program normal, fără bitul „setuid” activat. Acesta nu "
+"sporește privilegiile unui utilizator și nici nu reduce securitatea "
+"sistemului."
 
 #. type: SH
 #: ../doc/fakeroot.1:173
 #, no-wrap
 msgid "FILES"
-msgstr "DATEIEN"
+msgstr "FIȘIERE"
 
 #. type: Plain text
 #: ../doc/fakeroot.1:176
@@ -465,24 +428,21 @@ msgid ""
 "I</usr/lib/*/libfakeroot-*.so> The shared library containing the wrapper "
 "functions."
 msgstr ""
-"I</usr/lib/*/libfakeroot-*.so> Die dynamische Bibliothek, die die Wrapper-"
-"Funktionen enthält."
+"I</usr/lib/*/libfakeroot-*.so> Biblioteca partajată care conține funcțiile "
+"de învăluire (simulare)."
 
 #. type: SH
 #: ../doc/fakeroot.1:176
 #, no-wrap
 msgid "ENVIRONMENT"
-msgstr "UMGEBUNG"
+msgstr "VARIABILE DE MEDIU"
 
-# type: IP
 #. type: IP
 #: ../doc/fakeroot.1:178
 #, no-wrap
 msgid "B<FAKEROOTKEY>"
 msgstr "B<FAKEROOTKEY>"
 
-# FIXME fakeroot → B<fakeroot>
-# type: Plain text
 #. type: Plain text
 #: ../doc/fakeroot.1:189
 msgid ""
@@ -492,31 +452,24 @@ msgid ""
 "file system's permissions/ownerships (assuming the daemon and connecting "
 "program were started by the same user)."
 msgstr ""
-"Der Schlüssel zur Kommunikation mit dem B<fakeroot>-Daemon Jedes Programm, "
-"das mit dem richtigen B<LD_PRELOAD> und einem B<FAKEROOTKEY> eines laufenden "
-"Daemons gestartet wird, verbindet sich automatisch zu diesem Daemon und hat "
-"die gleiche »gefälschte« Sicht auf die Zugriffsrechte und Eigentümerschaften "
-"des Dateisystems (unter der Annahme, dass Daemon und verbindendes Programm "
-"vom gleichen Benutzer gestartet wurden)."
+"Cheia utilizată pentru a comunica cu demonul „fakeroot”. Orice program "
+"pornit cu B<LD_PRELOAD> corect și cu B<FAKEROOTKEY> a unui demon în execuție "
+"se va conecta automat la acel demon și va avea aceeași vedere „falsă” a "
+"permisiunilor/proprietăților sistemului de fișiere (presupunând că demonul "
+"și programul de conectare au fost pornite de același utilizator)."
 
-# type: IP
 #. type: IP
 #: ../doc/fakeroot.1:189
 #, no-wrap
 msgid "B<LD_LIBRARY_PATH>"
 msgstr "B<LD_LIBRARY_PATH>"
 
-# type: IP
 #. type: IP
 #: ../doc/fakeroot.1:191
 #, no-wrap
 msgid "B<LD_PRELOAD>"
 msgstr "B<LD_PRELOAD>"
 
-# FIXME LD_LIBRARY_PATH=/usr/lib/fakeroot → B<LD_LIBRARY_PATH=/usr/lib/fakeroot>
-# FIXME LD_PRELOAD=libfakeroot.so.0 → B<LD_PRELOAD=libfakeroot.so.0>
-# FIXME fakeroot → B<fakeroot>
-# type: Plain text
 #. type: Plain text
 #: ../doc/fakeroot.1:204
 msgid ""
@@ -528,59 +481,50 @@ msgid ""
 "should be set relative to the given paths, as in "
 "B<LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/foo/bar/>"
 msgstr ""
-"B<fakeroot> wurde mittels Umhüllung von Systemaufrufen implementiert. Dies "
-"wird durch die Einstellungen B<LD_LIBRARY_PATH=/usr/lib/fakeroot> und "
-"B<LD_PRELOAD=libfakeroot.so.0> bewerkstelligt. Diese Bibliothek wird vor der "
-"C-Bibliothek des Systems geladen. Daher werden die meisten "
-"Bibliotheksfunktionen von ihr abgefangen. Falls Sie entweder "
-"B<LD_LIBRARY_PATH> oder B<LD_PRELOAD> aus einer B<fakeroot>-Umgebung heraus "
-"setzen müssen, sollte es relativ zum angegebenen Pfad geschehen wie in "
-"B<LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/foo/bar/>"
+"fakeroot este implementat prin învăluirea apelurilor de sistem. Acest lucru "
+"se realizează prin configurarea variabilelor LD_LIBRARY_PATH=/usr/lib/"
+"fakeroot și LD_PRELOAD=libfakeroot.so.0. Această bibliotecă este încărcată "
+"înaintea bibliotecii C a sistemului și, prin urmare, majoritatea funcțiilor "
+"bibliotecii sunt interceptate de aceasta. Dacă trebuie să configurați fie "
+"B<LD_LIBRARY_PATH>, fie B<LD_PRELOAD> din interiorul unui mediu „fakeroot”, "
+"ar trebui să fie configurate relativ la rutele date, ca în "
+"B<LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/foo/bar/>."
 
-# type: SH
 #. type: SH
 #: ../doc/fakeroot.1:205
 #, no-wrap
 msgid "LIMITATIONS"
-msgstr "EINSCHRÄNKUNGEN"
+msgstr "LIMITĂRI"
 
-# type: IP
 #. type: IP
 #: ../doc/fakeroot.1:207
 #, no-wrap
 msgid "B<Library versions>"
-msgstr "B<Bibliotheksversionen>"
+msgstr "B<Versiunile de bibliotecă>"
 
-# type: Plain text
 #. type: Plain text
 #: ../doc/fakeroot.1:214
 msgid ""
 "Every command executed within B<fakeroot> needs to be linked to the same "
 "version of the C library as B<fakeroot> itself."
 msgstr ""
-"Jeder innerhalb B<fakeroot> ausgeführte Befehl muss zu der gleichen Version "
-"der C-Bibliothek gelinkt werden wie B<fakeroot> selbst."
+"Fiecare comandă executată în B<fakeroot> trebuie să fie legată la aceeași "
+"versiune a bibliotecii C ca și B<fakeroot> însăși."
 
-# type: IP
 #. type: IP
 #: ../doc/fakeroot.1:214
 #, no-wrap
 msgid "B<open()/create()>"
 msgstr "B<open()/create()>"
 
-# FIXME fakeroot → B<fakeroot>
-# FIXME open() → B<open>(2)
-# FIXME create() → B<creat>(2)
-# type: Plain text
 #. type: Plain text
 #: ../doc/fakeroot.1:218
 msgid ""
 "fakeroot doesn't wrap open(), create(), etc. So, if user B<joost> does either"
 msgstr ""
-"B<fakeroot> umhüllt nicht B<open>(2), B<creat>(2), usw. Falls Benutzer "
-"B<joost> also entweder"
+"fakeroot nu învăluie open(), create(), etc. Astfel, dacă utilizatorul "
+"B<joost> face fie"
 
-# type: Plain text
 #. type: Plain text
 #: ../doc/fakeroot.1:222
 #, no-wrap
@@ -593,13 +537,11 @@ msgstr ""
 "fakeroot\n"
 "ls -al foo\n"
 
-# type: Plain text
 #. type: Plain text
 #: ../doc/fakeroot.1:224
 msgid "or the other way around,"
-msgstr "oder andersherum"
+msgstr "sau invers,"
 
-# type: Plain text
 #. type: Plain text
 #: ../doc/fakeroot.1:228
 #, no-wrap
@@ -612,11 +554,6 @@ msgstr ""
 "touch foo\n"
 "ls -al foo\n"
 
-# FIXME fakeroot → B<fakeroot>
-# FIXME B<open>() → B<open>(2)
-# FIXME B<create>()→ B<creat>(2)
-# FIXME B<stat>() → B<stat>(2)
-# FOXME foo → I<foo>
 #. type: Plain text
 #: ../doc/fakeroot.1:264
 msgid ""
@@ -637,32 +574,31 @@ msgid ""
 "wrapped by fakeroot as small as possible, to limit the likelihood of \\"
 "(oqcollisions\\(cq."
 msgstr ""
-"ausführt, hat B<fakeroot> im ersten Fall keine Möglichkeit zu wissen, dass "
-"der Benutzer von I<foo> wirklich B<joost> sein soll, während es im zweiten "
-"Fall B<root> gewesen sein soll. Für die Debian-Paketierung ist es immer in "
-"Ordnung, allen »unbekannten« Dateien uid=gid=0 zu geben. Die korrekte Art, "
-"dies zu umgehen ist, B<open>(2) und B<creat>(2) zu verhüllen, aber dies "
-"erzeugt neue Probleme, wie vom Paket libtricks gezeigt wird. Dieses Paket "
-"verhüllte mehr Funktionen und versuchte viel mehr als B<fakeroot> zu tun. Es "
-"stellte sich heraus, dass ein unbedeutendes Upgrade von Libc (von einer, in "
-"der die Funktion B<stat>(2) B<open>(2) nicht nutzte, zu einer mit einer "
-"B<stat>(2)-Funktion, die (in einigen Fällen) B<open>(2) benutzte), "
-"unerklärbare Schutzverletzungen verursachen würde (das heißt, das libc6-"
-"B<stat>(2) ruft das verhüllte B<open>(2) auf, das dann libc6-B<stat>(2) "
-"aufrufen würde, usw). Das Beheben war alles andere als einfach, aber einmal "
-"behoben, war es nur eine Frage der Zeit, bevor eine andere Funktion begann, "
-"B<open>(2) zu benutzen, ganz zu schweigen vom Versuch, es auf andere "
-"Betriebssysteme zu portieren. Daher wurde entschieden, die Anzahl der von "
-"B<fakeroot> verhüllten Funktionen so klein wie möglich zu halten, um die "
-"Wahrscheinlichkeit von »Kollisionen« so gering wie möglich zu halten."
+"«fakeroot» nu are cum să știe că, în primul caz, proprietarul lui foo ar "
+"trebui să fie B<joost>, în timp ce în al doilea caz ar fi trebuit să fie "
+"B<root>. În cazul pachetului Debian, este întotdeauna în regulă să se "
+"atribuie în mod implicit tuturor fișierelor „necunoscute” uid=gid=0. "
+"Adevărata modalitate de a ocoli acest lucru este de a învălui B<open()> și "
+"B<create()>, dar acest lucru creează alte probleme, după cum demonstrează "
+"pachetul „libtricks”. Acest pachet a învăluit mult mai multe funcții și a "
+"încercat să facă mult mai multe decât B<fakeroot>. S-a dovedit că o "
+"actualizare minoră a „libc” (de la una în care funcția B<stat>() nu folosea "
+"B<open>() la una cu o funcție B<stat>() care folosea (în unele cazuri) "
+"B<open>()), ar fi cauzat erori de segmentare inexplicabile (adică, „libc6” "
+"B<stat>() a apelat B<open>() învăluit, care ar fi apelat apoi „libc6” "
+"B<stat>(), etc). Corectarea lor nu a fost chiar atât de ușoară, dar odată "
+"rezolvate, era doar o chestiune de timp până când o altă funcție începea să "
+"folosească open(), fără a mai vorbi de încercarea de a transpune această "
+"bibliotecă pe un alt sistem de operare. Astfel, am decis să păstrez numărul "
+"de funcții învăluite de «fakeroot» cât mai mic posibil, pentru a limita "
+"probabilitatea de \\(oqciocniri\\(cq."
 
 #. type: IP
 #: ../doc/fakeroot.1:264
 #, no-wrap
 msgid "GNU configure (and other such programs)"
-msgstr "GNU configure (und andere derartige Programme)"
+msgstr "GNU configure (și alte programe de acest tip)"
 
-# FIXME fakeroot → B<fakeroot>
 #. type: Plain text
 #: ../doc/fakeroot.1:272
 msgid ""
@@ -673,23 +609,20 @@ msgid ""
 "As configure should be called in the \"debian/rules build\" target, running "
 "\"dpkg-buildpackage -rfakeroot\" correctly takes care of this."
 msgstr ""
-"B<fakeroot> ändert in der Tat die Art, wie sich das System verhält. "
-"Programme wie GNU-configure könnten, die das System untersuchen, dadurch "
-"verwirrt werden (oder, wenn nicht, könnten sie B<fakeroot> so beanspruchen, "
-"dass B<fakeroot> selbst verwirrt wird). Daher ist es ratsam, »configure« "
-"nicht innerhalb von B<fakeroot> auszuführen. Da configure im »debian/rules "
-"build«-Ziel aufgerufen werden sollte, erledigt dies B<dpkg-buildpackage "
-"-rfakeroot> korrekt."
+"«fakeroot», de fapt, schimbă modul în care se comportă sistemul. Programele "
+"care sondează sistemul, cum ar fi GNU «configure», pot fi derutate de acest "
+"lucru (sau, dacă nu o fac, pot solicita «fakeroot» atât de mult încât "
+"«fakeroot» însuși devine confuz). Așadar, este recomandabil să nu executați "
+"«configure» din „fakeroot”. Deoarece «configure» ar trebui să fie apelat în "
+"ținta «debian/rules build», rularea «dpkg-buildpackage -rfakeroot» se ocupă "
+"corect de acest lucru."
 
-# type: SH
 #. type: SH
 #: ../doc/fakeroot.1:272 ../doc/faked.1:68
 #, no-wrap
 msgid "BUGS"
-msgstr "FEHLER"
+msgstr "ERORI"
 
-# FIXME open() → B<open>(2)
-# type: Plain text
 #. type: Plain text
 #: ../doc/fakeroot.1:282
 msgid ""
@@ -702,58 +635,49 @@ msgid ""
 "those that are already wrapped), thus creating loops (or possible future "
 "loops, when the implementation of various libc functions slightly change)."
 msgstr ""
-"Es umhüllt nicht B<open>(2). Dies ist an sich nicht schlecht, aber falls ein "
-"Programm »open(\"Datei\", O_WRONLY, 000)« aufruft, in die Datei »Datei« "
-"schreibt, sie schließt und dann erneut versucht, die Datei zum Lesen zu "
-"öffnen, schlägt das Öffnen fehl, da der Modus der Datei »000« sein wird. Der "
-"Fehler liegt darin, dass, falls Root das Gleiche tut, B<open>(2) erfolgreich "
-"sein wird, da die Dateirechte für Root überhaupt nicht geprüft werden. Es "
-"wurde entschieden, B<open>(2) nicht zu verhüllen, da B<open>(2) von vielen "
-"anderen Funktionen in Libc benutzt wird (auch von jenen, die bereits "
-"verhüllt sind), wodurch Schleifen erzeugt werden (oder möglicherweise "
-"zukünftige Schleifen, wenn die Implementierung verschiedener Libc-Funktionen "
-"sich ein wenig ändert)."
+"Acesta nu învăluie open(). Acest lucru nu este rău în sine, dar dacă un "
+"program face open(\"file\", O_WRONLY, 000), scrie în fișierul „file”, îl "
+"închide și apoi încearcă din nou să deschidă pentru a citi fișierul, atunci "
+"deschiderea eșuează, deoarece modul fișierului va fi 000. Eroarea este că, "
+"dacă root face același lucru, open() va reuși, deoarece permisiunile "
+"fișierului nu sunt verificate deloc pentru root. Am ales să nu învăluim "
+"open(), deoarece open() este folosit de multe alte funcții din „libc” "
+"(inclusiv de cele care sunt deja învăluite), creând astfel bucle (sau "
+"posibile bucle viitoare, atunci când implementarea diferitelor funcții "
+"„libc” se va schimba un pic)."
 
-# type: SH
 #. type: SH
 #: ../doc/fakeroot.1:282 ../doc/faked.1:82
 #, no-wrap
 msgid "COPYING"
-msgstr "KOPIEREN"
+msgstr "COPIEREA"
 
-# FIXME License. → License
-# type: Plain text
 #. type: Plain text
 #: ../doc/fakeroot.1:286 ../doc/faked.1:86
 msgid ""
 "B<fakeroot> is distributed under the GNU General Public License.  (GPL 2.0 "
 "or greater)."
 msgstr ""
-"B<fakeroot> wird unter den Bedingungen der GNU General Public License (GPL "
-"2.0 oder höher) weitergegeben."
+"B<fakeroot> este distribuit sub Licența Publică Generală GNU.  (GPL 2.0 sau "
+"ulterioară)."
 
-# type: SH
 #. type: SH
 #: ../doc/fakeroot.1:286 ../doc/faked.1:86
 #, no-wrap
 msgid "AUTHORS"
-msgstr "AUTOREN"
+msgstr "AUTORI"
 
-# type: TP
-# FIXME Upper case?
 #. type: TP
 #: ../doc/fakeroot.1:287 ../doc/faked.1:87
 #, no-wrap
 msgid "joost witteveen"
-msgstr "Joost Witteveen"
+msgstr "joost witteveen"
 
-# type: Plain text
 #. type: Plain text
 #: ../doc/fakeroot.1:290 ../doc/faked.1:90
 msgid "E<lt>I<joostje@debian.org>E<gt>"
 msgstr "E<lt>I<joostje@debian.org>E<gt>"
 
-# type: TP
 #. type: TP
 #: ../doc/fakeroot.1:290 ../doc/faked.1:90
 #, no-wrap
@@ -775,23 +699,23 @@ msgstr "Timo Savola"
 #: ../doc/fakeroot.1:295 ../doc/faked.1:95
 #, no-wrap
 msgid "MANUAL PAGE"
-msgstr "HANDBUCHSEITE"
+msgstr "PAGINA DE MANUAL"
 
-# FIXME s/joost/Joost/
 #. type: Plain text
 #: ../doc/fakeroot.1:299
 msgid ""
 "mostly by J.H.M. Dassen B<E<lt>>I<jdassen@debian.org>B<E<gt>> with rather a "
 "lot of modsifications and additions by joost and Clint."
 msgstr ""
-"größtenteils von J.H.M. Dassen B<E<lt>>I<jdassen@debian.org>B<E<gt>> mit ziemlich "
-"vielen Anpassungen und Zusätzen von Joost und Clint."
+"în cea mai mare parte scrisă de J.H.M. Dassen "
+"B<E<lt>>I<jdassen@debian.org>B<E<gt>>, cu o mulțime de modificări și "
+"adăugiri de joost și Clint."
 
 #. type: SH
 #: ../doc/fakeroot.1:299 ../doc/faked.1:99
 #, no-wrap
 msgid "SEE ALSO"
-msgstr "SIEHE AUCH"
+msgstr "CONSULTAȚI ȘI"
 
 #. type: Plain text
 #: ../doc/fakeroot.1:303
@@ -808,15 +732,14 @@ msgstr ""
 msgid "faked"
 msgstr "faked"
 
-# FIXME fakeroot → B<fakeroot>
 #. type: Plain text
 #: ../doc/faked.1:22
 msgid ""
 "faked - daemon that remembers fake ownership/permissions of files "
 "manipulated by fakeroot processes."
 msgstr ""
-"faked - Daemon, der sich an gefälschte Eigentümerschaften und Zugriffsrechte "
-"von Dateien erinnert, die durch B<fakeroot>-Prozesse manipuliert wurden."
+"faked - demon care memorează proprietatea/permisiunile false ale fișierelor "
+"manipulate de procesele „fakeroot”."
 
 #. type: Plain text
 #: ../doc/faked.1:30
@@ -824,14 +747,9 @@ msgid ""
 "B<faked> B<[--debug] [--foreground] [--cleanup] [--key> I<msg-key>B<]> B<[--"
 "load] [--save-file> I<save-file>B<]> B<[--port> I<TCP-port>B<]>"
 msgstr ""
-"B<faked> B<[--debug] [--foreground] [--cleanup] [--key> "
-"I<Nachrichtenschlüssel>B<]> B<[--load] [--save-file> "
-"I<zu_speichernde_Datei>B<]> B<[--port> I<TCP-Port>B<]>"
+"B<faked> B<[--debug] [--foreground] [--cleanup] [--key> I<număr-cheie>B<]> "
+"B<[--load] [--save-file> I<fișier-de-salvare>B<]> B<[--port> I<port-TCP>B<]>"
 
-# FIXME fakeroot → B<fakeroot>
-# FIXME B<stat()> → B<stat>(2)
-# FIXME faked → B<faked>
-# type: Plain text
 #. type: Plain text
 #: ../doc/faked.1:38
 msgid ""
@@ -841,128 +759,110 @@ msgid ""
 "call will first ask faked for the fake ownership etc.\\& of that file, and "
 "then report it."
 msgstr ""
-"Falls ein B<fakeroot>-Prozess die Eigentümerschaften einer Datei ändern "
-"möchte, dann ist B<faked> der Prozess, der sich an diesen neuen Besitzer "
-"erinnert. Falls der gleiche B<fakeroot>-Prozess später B<stat>(2) für diesen "
-"Dateinamen ausführt, dann wird der von libfakeroot umhüllte B<stat>(2)-"
-"Aufruf zuerst B<faked> nach den Eigentümerschaften usw. der Datei fragen und "
-"diese dann zurückliefern."
+"Dacă un proces „fakeroot” dorește să schimbe proprietarul unui fișier, "
+"atunci B<faked> este procesul care își amintește de noul proprietar. Dacă "
+"mai târziu același proces „fakeroot” face un stat() pentru acel nume de "
+"fișier, atunci apelul stat() învăluit de „libfakeroot” va cere mai întâi lui "
+"«faked» să afle proprietatea falsă, etc. a acelui fișier, iar apoi va "
+"raporta acest lucru."
 
-# type: TP
 #. type: TP
 #: ../doc/faked.1:40
 #, no-wrap
 msgid "B<--debug>"
 msgstr "B<--debug>"
 
-# type: Plain text
 #. type: Plain text
 #: ../doc/faked.1:43
 msgid "Print debugging information on stderr."
-msgstr "Gibt Informationen zur Fehlersuche auf der Standardfehlerausgabe aus."
+msgstr "Imprimă informații de depanare la ieșirea de eroare standard."
 
-# type: TP
 #. type: TP
 #: ../doc/faked.1:43
 #, no-wrap
 msgid "B<--foreground>"
 msgstr "B<--foreground>"
 
-# type: Plain text
 #. type: Plain text
 #: ../doc/faked.1:46
 msgid "Don't fork into the background."
-msgstr "Erzeugt keinen Hintergrundprozess."
+msgstr "Nu se bifurcă (nu execută fork) în fundal."
 
-# type: TP
 #. type: TP
 #: ../doc/faked.1:46
 #, no-wrap
 msgid "B<--cleanup>I<\\ number>"
-msgstr "B<--cleanup>I<\\ Nummer>"
+msgstr "B<--cleanup>I<\\ număr>"
 
-# type: Plain text
 #. type: Plain text
 #: ../doc/faked.1:49
 msgid "Cleanup the semaphores."
-msgstr "Bereinigt Semaphoren."
+msgstr "Curăță semafoarele."
 
-# type: TP
 #. type: TP
 #: ../doc/faked.1:49
 #, no-wrap
 msgid "B<--key>I<\\ key-number>"
-msgstr "B<--key>I<\\ Schlüsselnummer>"
+msgstr "B<--key>I<\\ număr-cheie>"
 
-# FIXME it's → it will be
-# type: Plain text
 #. type: Plain text
 #: ../doc/faked.1:54
 msgid ""
 "Don't allocate a new communication channel, but use channel specified by "
 "key.  (If the specified channel doesn't exist, it's created)."
 msgstr ""
-"Reserviert keinen neuen Kommunikationskanal, sondern benutzt den durch den "
-"Schlüssel angegebenen Kanal. (Falls der angegebene Kanal nicht existiert, "
-"wird er erzeugt.)"
+"Nu se alocă un nou canal de comunicare, ci se utilizează canalul specificat "
+"prin cheie (în cazul în care canalul specificat nu există, acesta este "
+"creat)."
 
-# type: TP
 #. type: TP
 #: ../doc/faked.1:54
 #, no-wrap
 msgid "B<--save-file>I<\\ save-file>"
-msgstr "B<--save-file>I<\\ zu_speichernde_Datei>"
+msgstr "B<--save-file>I<\\ fișier-salvare>"
 
-# type: Plain text
 #. type: Plain text
 #: ../doc/faked.1:57
 msgid "Save the environment to save-file on exit."
-msgstr "Sichert beim Beenden die Umgebung in I<zu_speichernde_Datei>."
+msgstr "Salvează mediul în fișierul-de-salvare la ieșire."
 
-# type: TP
 #. type: TP
 #: ../doc/faked.1:57
 #, no-wrap
 msgid "B<--load>"
 msgstr "B<--load>"
 
-# type: Plain text
 #. type: Plain text
 #: ../doc/faked.1:60
 msgid "Load a previously saved environment from the standard input."
-msgstr "Lädt eine vorher gesicherte Umgebung von der Standardeingabe."
+msgstr "Încarcă un mediu salvat anterior de la intrarea standard."
 
-# type: TP
 #. type: TP
 #: ../doc/faked.1:60
 #, no-wrap
 msgid "B<--unknown-is-real>"
 msgstr "B<--unknown-is-real>"
 
-# type: Plain text
 #. type: Plain text
 #: ../doc/faked.1:64
 msgid ""
 "Use real ownership of previously-unknown files instead of setting them to "
 "root:root."
 msgstr ""
-"Benutzt echte Eigentümerschaften von vorher unbekannten Dateien, anstatt sie "
-"auf »root:root« zu setzen."
+"Utilizează proprietatea reală a fișierelor necunoscute anterior în loc să le "
+"stabilească la root:root."
 
-# type: TP
 #. type: TP
 #: ../doc/faked.1:64
 #, no-wrap
 msgid "B<--port>I<\\ tcp-port>"
-msgstr "B<--port>I<\\ TCP-Port>"
+msgstr "B<--port>I<\\ port-tcp>"
 
-# type: Plain text
 #. type: Plain text
 #: ../doc/faked.1:67
 msgid "Use TCP port tcp-port."
-msgstr "Verwendet den TCP-Port TCP-Port."
+msgstr "Utilizează portul TCP „port-tcp”."
 
-# type: Plain text
 #. type: Plain text
 #: ../doc/faked.1:82
 msgid ""
@@ -972,45 +872,38 @@ msgid ""
 "say, B<fakeroot> version 0.0_3, the first version that could be used to "
 "build itself."
 msgstr ""
-"Bisher keine. Seien Sie dennoch gewarnt: Obwohl der Autor eine ganze Reihe "
-"wesentlich größere (und kleinere) Programme geschrieben hat, hat er nie "
-"etwas geschrieben, das so klein wie B<fakeroot> war und so viele Fehler wie "
-"B<fakeroot> hatte und immer noch so benutzbar war wie etwa B<fakeroot> "
-"Version 0.0_3, der ersten Version, die benutzt werden konnte, um B<fakeroot> "
-"selbst zu bauen."
+"Niciuna până acum. Totuși, fiți atenți: deși am scris câteva programe mult "
+"mai mari (și mai mici), nu am scris niciodată ceva care să fie la fel de mic "
+"ca B<fakeroot>, să aibă atâtea erori ca B<fakeroot> și totuși să fie la fel "
+"de utilizabil ca, să zicem, B<fakeroot> versiunea 0.0_3, prima versiune care "
+"putea fi folosită pentru a se construi singură."
 
-# FIXME s/joost/Joost/
-# type: Plain text
 #. type: Plain text
 #: ../doc/faked.1:99
 msgid ""
 "mostly by J.H.M.\\& Dassen E<lt>I<jdassen@debian.org>E<gt> mods/additions by "
 "joost and Clint."
 msgstr ""
-"größtenteils von J.H.M. Dassen E<lt>jdassen@debian.orgE<gt> mit Anpassungen "
-"und Ergänzungen von Joost und Clint."
+"în mare parte scrisă de J.H.M. Dassen E<lt>I<jdassen@debian.org>E<gt> cu "
+"modificări/adăugiri făcute de joost și Clint."
 
-# type: Plain text
-# FIXME wrong order
 #. type: Plain text
 #: ../doc/faked.1:103
 msgid ""
 "B<fakeroot>(1), B<dpkg-buildpackage>(1), B<debuild>(1), B</usr/share/doc/"
 "fakeroot/DEBUG>"
 msgstr ""
-"B<debuild>(1), B<dpkg-buildpackage>(1), B<fakeroot>(1), B</usr/share/doc/"
+"B<fakeroot>(1), B<dpkg-buildpackage>(1), B<debuild>(1), B</usr/share/doc/"
 "fakeroot/DEBUG>"
 
 #, no-wrap
 #~ msgid "5 October 2014"
-#~ msgstr "5. Oktober 2014"
+#~ msgstr "5 octombrie 2014"
 
-# type: TH
 #, no-wrap
 #~ msgid "17 June 2004"
-#~ msgstr "17. Juni 2004"
+#~ msgstr "17 iunie 2004"
 
-# type: TH
 #, no-wrap
 #~ msgid "Debian GNU/Linux manual"
-#~ msgstr "Debian-GNU/Linux-Handbuch"
+#~ msgstr "Manualul GNU/Linux de Debian"

@@ -21,6 +21,7 @@ int (*NEXT_FSTATAT64_NOARG)FSTATAT64_ARG(int ver, int dir_fd, const char *path, 
 
 #ifdef __APPLE__
 #ifdef __LP64__
+#include <sys/types.h>
 int (*next_getattrlist)(const char *path, void *attrList, void *attrBuf, size_t attrBufSize, unsigned int options)=tmp_getattrlist;
 #ifdef HAVE_FGETATTRLIST
 int (*next_fgetattrlist)(int fd, void *attrList, void *attrBuf, size_t attrBufSize, unsigned int options)=tmp_fgetattrlist;
@@ -35,9 +36,12 @@ int (*next_getattrlist$UNIX2003)(const char *path, void *attrList, void *attrBuf
 #endif
 #endif
 #if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_5
+#include <spawn.h>
+#if !__DARWIN_ONLY_64_BIT_INO_T
 int (*next_lstat$INODE64)(const char *file_name, struct stat *buf)=tmp_lstat$INODE64;
 int (*next_stat$INODE64)(const char *file_name, struct stat *buf)=tmp_stat$INODE64;
 int (*next_fstat$INODE64)(int fd, struct stat *buf)=tmp_fstat$INODE64;
+#endif /* !__DARWIN_ONLY_64_BIT_INO_T */
 int (*next_posix_spawn)(pid_t * __restrict pid, const char * __restrict path, const posix_spawn_file_actions_t *file_actions, const posix_spawnattr_t * __restrict attrp, char *const argv[ __restrict], char *const envp[ __restrict])=tmp_posix_spawn;
 int (*next_posix_spawnp)(pid_t * __restrict pid, const char * __restrict path, const posix_spawn_file_actions_t *file_actions, const posix_spawnattr_t * __restrict attrp, char *const argv[ __restrict], char *const envp[ __restrict])=tmp_posix_spawnp;
 #endif
@@ -170,15 +174,15 @@ int (*next_fchmodat)(int dir_fd, const char *path, mode_t mode, int flags)=tmp_f
 #ifdef HAVE_FCHOWNAT
 int (*next_fchownat)(int dir_fd, const char *path, uid_t owner, gid_t group, int flags)=tmp_fchownat;
 #endif /* HAVE_FCHOWNAT */
-#ifdef HAVE_FCHOWN32
-int (*next_fchown32)(int fd, uid_t owner, gid_t group)=tmp_fchown32;
-#endif /* HAVE_FCHOWN32 */
 #ifdef HAVE_MKDIRAT
 int (*next_mkdirat)(int dir_fd, const char *pathname, mode_t mode)=tmp_mkdirat;
 #endif /* HAVE_MKDIRAT */
 #ifdef HAVE_RENAMEAT
 int (*next_renameat)(int olddir_fd, const char *oldpath, int newdir_fd, const char *newpath)=tmp_renameat;
 #endif /* HAVE_RENAMEAT */
+#ifdef HAVE_RENAMEAT2
+int (*next_renameat2)(int olddir_fd, const char *oldpath, int newdir_fd, const char *newpath, unsigned int flags)=tmp_renameat2;
+#endif /* HAVE_RENAMEAT2 */
 #ifdef HAVE_UNLINKAT
 int (*next_unlinkat)(int dir_fd, const char *pathname, int flags)=tmp_unlinkat;
 #endif /* HAVE_UNLINKAT */
@@ -209,7 +213,9 @@ int (*next_facl)(int fd, int cmd, int cnt, void *buf)=tmp_facl;
 FTSENT * (*next_fts_read)(FTS *ftsp)=tmp_fts_read;
 #ifdef __APPLE__
 #if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_5
+#if !__DARWIN_ONLY_64_BIT_INO_T
 FTSENT * (*next_fts_read$INODE64)(FTS *ftsp)=tmp_fts_read$INODE64;
+#endif /* !__DARWIN_ONLY_64_BIT_INO_T */
 #endif
 #endif /* ifdef __APPLE__ */
 #endif /* HAVE_FTS_READ */
@@ -217,7 +223,9 @@ FTSENT * (*next_fts_read$INODE64)(FTS *ftsp)=tmp_fts_read$INODE64;
 FTSENT * (*next_fts_children)(FTS *ftsp, int options)=tmp_fts_children;
 #ifdef __APPLE__
 #if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_5
+#if !__DARWIN_ONLY_64_BIT_INO_T
 FTSENT * (*next_fts_children$INODE64)(FTS *ftsp, int options)=tmp_fts_children$INODE64;
+#endif /* !__DARWIN_ONLY_64_BIT_INO_T */
 #endif
 #endif /* ifdef __APPLE__ */
 #endif /* HAVE_FTS_CHILDREN */

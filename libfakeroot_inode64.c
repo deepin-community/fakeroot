@@ -20,6 +20,8 @@
 
    In this file, 'struct stat' is an alias for 'struct stat64'.
 */
+#include <sys/types.h>
+#ifndef _DARWIN_FEATURE_ONLY_64_BIT_INODE
 #define _DARWIN_USE_64_BIT_INODE
 
 #include "config.h"
@@ -141,6 +143,7 @@ FTSENT *fts_children$INODE64(FTS *ftsp,
 
   return first;
 }
-#endif /* MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_5 */
 #endif /* HAVE_FTS_READ */
+#endif /* MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_5 */
+#endif /* ifndef _DARWIN_FEATURE_ONLY_64_BIT_INODE */
 #endif /* ifdef __APPLE__ */

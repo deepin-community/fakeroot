@@ -18,7 +18,7 @@
 .\" This file was generated with po4a. Translate the source file.
 .\"
 .\"*******************************************************************
-.TH faked 1 "17:e juni 2004" "Debian Project" "Debian GNU/Linux manual"
+.TH faked 1 2024\-12\-19 "Debian Project" "Debian manual"
 .\" Manpage by J.H.M. Dassen <jdassen@debian.org>
 .\" and Clint Adams
 .SH NAMN
@@ -29,11 +29,11 @@ för filer som manipulerats av fakeroot\-processer.
 \fImeddelande\-nyckel\fP\fB]\fP \fB[\-\-load] [\-\-save\-file\fP \fIspar\-fil\fP\fB]\fP \fB[\-\-port\fP
 \fItcp\-port\fP\fB]\fP
 .SH BESKRIVNING
-Om en fakeroot\-process vill ändra ägarskap för en fil, är \fBfaked\fP den
-process som kommer att komma ihåg den nya ägaren. Om samma fakeroot\-process
-senare utför ett stat()\-anrop för den filen, kommer libfakeroots
-ersättningsfunktion för stat() först att anropa faked för att få den fejkade
-ägarinformationen, osv. för den filen, och sedan rapportera denna.
+If a fakeroot process wants to change the ownership of a file, then \fBfaked\fP
+is the process that remembers that new owner.  If later the same fakeroot
+process does a stat() for that filename, then the libfakeroot wrapped stat()
+call will first ask faked for the fake ownership etc.\& of that file, and
+then report it.
 
 .SH FLAGGOR
 .TP 
@@ -43,14 +43,14 @@ Skriv ut avlusningsinformation via stderr.
 \fB\-\-foreground\fP
 Förbli en förgrundsprocess.
 .TP 
-\fB\-\-cleanup \ number\fP
+\fB\-\-cleanup\fP\fI\ number\fP
 Rensa upp semaforerna.
 .TP 
-\fB\-\-key \ nyckelvärde\fP
-Allokera ingen ny kommunikationskanal; använd istället kanalen som angivits
-via nyckeln (om den angivna kanalen inte existerar så skapas den).
+\fB\-\-key\fP\fI\ key\-number\fP
+Don't allocate a new communication channel, but use channel specified by
+key.  (If the specified channel doesn't exist, it's created).
 .TP 
-\fB\-\-save\-file \ sparfil\fP
+\fB\-\-save\-file\fP\fI\ save\-file\fP
 Spara miljön till sparfil vid avslut.
 .TP 
 \fB\-\-load\fP
@@ -60,15 +60,15 @@ Läsa in en tidigare sparad miljö från standard in.
 Okänt riktigt ägarskap av tidigare okända filer istället för att ställa in
 dem på root:root.
 .TP 
-\fB\-\-port \ tcp\-port\fP
+\fB\-\-port\fP\fI\ tcp\-port\fP
 Använd TCP\-port tcp\-port.
 
 .SH BUGGAR
-Inga kända. Tag dock i beaktande, att även om jag skrivit ett flertal större
-(och mindre) program, så har jag aldrig skrivit något så litet som
-\fBfakeroot\fP, som har så många buggar som \fBfakeroot\fP, och ändå varit så
-användbart som, låt säga, \fBfakeroot\fP version 0.0_3, den första versionen av
-programmet som kunde användas för att bygga sig själv.
+None so far.  Be warned, though: although I've written quite a few much
+larger (and smaller)  programs, I've never written anything that was as tiny
+as \fBfakeroot\fP, had as many bugs as \fBfakeroot\fP, and still was as usable as,
+say, \fBfakeroot\fP version 0.0_3, the first version that could be used to
+build itself.
 .SH LICENS
 \fBfakeroot\fP distribueras under GNU General Public License.  (GPL 2.0 eller
 senare).
@@ -85,8 +85,8 @@ Timo Savola
 David Weinehall
 .RI < tao@kernel.org >
 .SH MANUALSIDA
-till större delen skriven av J.H.M. Dassen
-<\fIjdassen@wi.LeidenUniv.nl\fP> ändringar/tillägg av joost och Clint.
+mostly by J.H.M.\& Dassen <\fIjdassen@debian.org\fP> mods/additions by
+joost and Clint.
 .SH "SE ÄVEN"
-\fBfakeroot\fP(1), \fBdpkg\-buildpackage\fP(1), \fBdebuild\fP(1)
+\fBfakeroot\fP(1), \fBdpkg\-buildpackage\fP(1), \fBdebuild\fP(1),
 \fB/usr/share/doc/fakeroot/DEBUG\fP

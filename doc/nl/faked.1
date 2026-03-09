@@ -18,7 +18,7 @@
 .\" This file was generated with po4a. Translate the source file.
 .\"
 .\"*******************************************************************
-.TH faked 1 "17 juni 2004" "Project Debian" "Handleiding van Debian GNU/Linux"
+.TH faked 1 2024\-12\-19 "Project Debian" "Handleiding van Debian"
 .\" Manpage by J.H.M. Dassen <jdassen@debian.org>
 .\" and Clint Adams
 .SH NAAM
@@ -29,11 +29,11 @@ die door fakeroot\-processen zijn bewerkt.
 \fIberichtensleutel\fP\fB]\fP \fB[\-\-load] [\-\-save\-file\fP \fIte\-bewaren\-bestand\fP\fB]\fP
 \fB[\-\-port\fP \fITCP\-poort\fP\fB]\fP
 .SH BESCHRIJVING
-Als een fakeroot\-proces de eigenaren van een bestand wil veranderen, dan is
-\fBfaked\fP het proces dat de nieuwe eigenaar onthoudt. Als later hetzelfde
-fakeroot\-proces een \fBstat()\fP uitvoert op die bestandsnaam, dan zal de door
-libfakeroot omhulde \fBstat()\fP\-aanroep eerst faked verzoeken om de valse
-eigenaren, enz. van dat bestand, en dan deze rapporteren.
+If a fakeroot process wants to change the ownership of a file, then \fBfaked\fP
+is the process that remembers that new owner.  If later the same fakeroot
+process does a stat() for that filename, then the libfakeroot wrapped stat()
+call will first ask faked for the fake ownership etc.\& of that file, and
+then report it.
 
 .SH OPTIES
 .TP 
@@ -43,15 +43,14 @@ Foutopsporingsinformatie op stderr afdrukken.
 \fB\-\-foreground\fP
 Niet naar de achtergrond `forken'.
 .TP 
-\fB\-\-cleanup\fP \fInummer\fP
+\fB\-\-cleanup\fP\fI\ number\fP
 De `semaphores' opschonen.
 .TP 
-\fB\-\-key\fP \fIsleutelnummer\fP
-Geen nieuw communicatiekanaal reserveren, maar het door \fIsleutelnummer\fP
-aangegeven kanaal gebruiken. (Als het aangegeven kanaal niet bestaat wordt
-het aangemaakt.)
+\fB\-\-key\fP\fI\ key\-number\fP
+Don't allocate a new communication channel, but use channel specified by
+key.  (If the specified channel doesn't exist, it's created).
 .TP 
-\fB\-\-save\-file\fP \fIte\-bewaren\-bestand\fP
+\fB\-\-save\-file\fP\fI\ save\-file\fP
 De omgeving bij afsluiten opslaan in het \fIte\-bewaren\-bestand\fP.
 .TP 
 \fB\-\-load\fP
@@ -61,15 +60,15 @@ Een eerder opgeslagen omgeving uit standaard invoer inladen.
 De echte eigenaren van eerder onbekende bestanden gebruiken in plaats van
 deze op root:root in te stellen.
 .TP 
-\fB\-\-port\fP \fITCP\-poort\fP
+\fB\-\-port\fP\fI\ tcp\-port\fP
 De TCP\-poort \fITCP\-poort\fP gebruiken.
 
 .SH FOUTEN
-Tot nog toe geen. Wees echter gewaarschuwd: hoewel ik nogal wat veel grotere
-(en kleinere) programma's heb geschreven, heb ik nog nooit zoiets piepkleins
-geschreven als \fBfakeroot\fP, of met zoveel fouten als \fBfakeroot\fP, en dat
-toch nog zo bruikbaar was als, laten we zeggen, \fBfakeroot\fP versie 0.0_3, de
-eerste versie die kon worden gebruikt om zichzelf te bouwen.
+None so far.  Be warned, though: although I've written quite a few much
+larger (and smaller)  programs, I've never written anything that was as tiny
+as \fBfakeroot\fP, had as many bugs as \fBfakeroot\fP, and still was as usable as,
+say, \fBfakeroot\fP version 0.0_3, the first version that could be used to
+build itself.
 .SH KOPIËREN
 \fBfakeroot\fP wordt verspreid onder de voorwaarden van de GNU General Public
 License (GPL 2.0 of recenter).
@@ -87,8 +86,8 @@ Timo Savola
 Martijn Dekker
 .RI < martijn@inlv.org >
 .SH HANDLEIDINGSPAGINA
-Vooral door J.H.M. Dassen <\fIjdassen@debian.org\fP>. Wijzigingen en
-aanvullingen door joost en Clint.
+mostly by J.H.M.\& Dassen <\fIjdassen@debian.org\fP> mods/additions by
+joost and Clint.
 .SH "ZIE OOK"
 \fBfakeroot\fP(1), \fBdpkg\-buildpackage\fP(1), \fBdebuild\fP(1),
 \fB/usr/share/doc/fakeroot/DEBUG\fP
