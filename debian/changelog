@@ -1,3 +1,9 @@
+fakeroot (1.37.2-1deepin1) unstable; urgency=medium
+
+  * Add loong64 support.
+
+ -- tunaichao <tunaichao@uniontech.com>  Thu, 12 Mar 2026 17:10:50 +0800
+
 fakeroot (1.37.2-1) unstable; urgency=medium
 
   * New upstream version.

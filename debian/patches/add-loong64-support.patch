@@ -1,0 +1,40 @@
+Description: Add loong64 support
+Author: Han Gao <gaohan@iscas.ac.cn>
+
+Last-Update: 2023-03-12
+
+Index: fakeroot/configure.ac
+===================================================================
+--- fakeroot.orig/configure.ac
++++ fakeroot/configure.ac
+@@ -196,7 +196,7 @@ AC_MSG_CHECKING([for type of arg of __xm
+        #include <fcntl.h>
+        #include <unistd.h>
+   ]], [[
+-#ifndef __GLIBC__
++#ifndef __GLIBC__ || (defined(__GLIBC__) && __GLIBC_PREREQ(2,35))
+ #error no extra *
+ #endif
+        int __xmknod  ( int ver,
+@@ -238,7 +238,7 @@ AC_MSG_CHECKING([for type of arg of __xm
+        #include <fcntl.h>
+        #include <unistd.h>
+   ]], [[
+-#ifndef __GLIBC__
++#ifndef __GLIBC__ || (defined(__GLIBC__) && __GLIBC_PREREQ(2,35))
+ #error no extra *
+ #endif
+        int __xmknodat  ( int ver,
+Index: fakeroot/libfakeroot.c
+===================================================================
+--- fakeroot.orig/libfakeroot.c
++++ fakeroot/libfakeroot.c
+@@ -1461,7 +1461,7 @@ int renameat2(int olddir_fd, const char
+ 
+ 
+ #if defined(__GLIBC__)
+-#if __GLIBC_PREREQ(2,33)
++#if (__GLIBC_PREREQ(2,33) && !defined(__loongarch64))
+ /* Glibc 2.33 exports symbols for these functions in the shared lib */
+ 
+   #ifndef NO_WRAP_MKNOD_SYMBOL
